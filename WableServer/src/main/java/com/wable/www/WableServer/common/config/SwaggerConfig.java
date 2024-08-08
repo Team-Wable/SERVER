@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
-        info = @Info(title = "Don't be API 명세서",
-                description = "Don't be API 명세서",
+        info = @Info(title = "Wable API 명세서",
+                description = "Wable API 명세서",
                 version = "v1"))
 @RequiredArgsConstructor
 @Configuration
@@ -26,7 +26,7 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi Version1OpenApi() {
         return GroupedOpenApi.builder()
-                .group("Don't be API v1")
+                .group("Wable API v1")
                 .pathsToMatch("/api/v1/**")
                 .build();
     }
