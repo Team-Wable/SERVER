@@ -44,6 +44,8 @@ public class ContentCommandService {
 
         GhostUtil.isGhostMember(member.getMemberGhost());
 
+        member.increaseExpPostContent();
+
         Content content = Content.builder()
                 .member(member)
                 .contentText(contentPostRequestDto.contentText())
@@ -53,6 +55,8 @@ public class ContentCommandService {
 
     public void postContentVer2(Long memberId, MultipartFile contentImage, ContentPostRequestDto contentPostRequestDto) {
         Member member = memberRepository.findMemberByIdOrThrow(memberId);
+
+        member.increaseExpPostContent();
 
         GhostUtil.isGhostMember(member.getMemberGhost());
 
@@ -92,6 +96,8 @@ public class ContentCommandService {
     public void likeContent(Long memberId, Long contentId, ContentLikedRequestDto contentLikedRequestDto) {
         Member triggerMember = memberRepository.findMemberByIdOrThrow(memberId);
         Content content = contentRepository.findContentByIdOrThrow(contentId);
+
+        triggerMember.increaseExpPostLike();
 
         isDuplicateContentLike(content, triggerMember);
 
