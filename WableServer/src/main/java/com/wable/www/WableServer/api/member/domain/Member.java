@@ -86,7 +86,7 @@ public class Member extends BaseTimeEntity {
     private int memberLckYears;
 
     @Column(name = "member_exp", columnDefinition = "INTEGER DEFAULT 0")
-    private int memberExp;
+    private double memberExp;
 
     @OneToMany(mappedBy = "notificationTargetMember",cascade = ALL)
     private List<Notification> targetNotification = new ArrayList<>();
