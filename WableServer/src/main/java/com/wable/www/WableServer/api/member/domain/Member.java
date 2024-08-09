@@ -162,4 +162,10 @@ public class Member extends BaseTimeEntity {
     public void updateMemberFanTeam(String memberFanTeam) { this.memberFanTeam = memberFanTeam;}
 
     public void updateMemberLckYears(int memberLckYears) { this.memberLckYears = memberLckYears;}
+
+    public void increaseExpPostContent() { this.memberExp += 0.6;}
+
+    public void increaseExpPostComment() { this.memberExp += 3.0;}
+
+    public void increaseExpPostLike() { this.memberExp += 1.0;}
 }
