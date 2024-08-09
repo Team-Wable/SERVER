@@ -13,6 +13,8 @@ public record ContentGetDetailsResponseDtoVer2(
         String time,
         int likedNumber,
         int commentNumber,
+        String contentTitle,
+
         String contentText,
         Boolean isDeleted
 ) {
@@ -27,6 +29,7 @@ public record ContentGetDetailsResponseDtoVer2(
                 time,
                 likedNumber,
                 commentNumber,
+                content.getContentTitle(),
                 content.getContentText(),
                 member.isDeleted()
         );

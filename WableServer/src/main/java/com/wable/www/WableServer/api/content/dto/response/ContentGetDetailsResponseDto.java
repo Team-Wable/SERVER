@@ -13,6 +13,7 @@ public record ContentGetDetailsResponseDto(
         String time,
         int likedNumber,
         int commentNumber,
+        String contentTitle,
         String contentText
 ) {
     public static ContentGetDetailsResponseDto of(Member member, int memberGhost, Content content, boolean isGhost, boolean isLiked, String time, int likedNumber, int commentNumber){
@@ -26,6 +27,7 @@ public record ContentGetDetailsResponseDto(
                 time,
                 likedNumber,
                 commentNumber,
+                content.getContentTitle(),
                 content.getContentText()
         );
     }

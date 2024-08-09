@@ -8,6 +8,8 @@ public record ContentGetAllResponseDto(
         String memberProfileUrl,
         String memberNickname,
         Long contentId,
+        String contentTitle,
+
         String contentText,
         String time,
         boolean isGhost,
@@ -22,6 +24,7 @@ public record ContentGetAllResponseDto(
                 writerMember.getProfileUrl(),
                 writerMember.getNickname(),
                 content.getId(),
+                content.getContentTitle(),
                 content.getContentText(),
                 time,
                 isGhost,
