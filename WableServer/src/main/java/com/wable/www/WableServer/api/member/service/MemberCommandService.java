@@ -56,7 +56,24 @@ public class MemberCommandService {
         member.updateProfileUrl(GHOST_IMAGE_S3);
         member.updateDeletedReason(memberWithdrawalPatchRequestDto.deleted_reason());
 
-        notificationRepository.deleteBynotificationTargetMember(member);
+//        notificationRepository.deleteBynotificationTargetMember(member);
+
+        List<Content> contentList = contentRepository.findContentByMember(member);
+        for(Content content : contentList)  {
+            content.softDelete();
+        }
+
+        List<Comment> commentList = commentRepository.findAllByMember(member);
+        for(Comment comment : commentList)  {
+            comment.softDelete();
+        }
+
+        List<Notification> notification1 = notificationRepository.findAllByNotificationTargetMember(member);
+        List<Notification> notification2 = notificationRepository.findAllByNotificationTriggerMemberId(memberId);
+
+        notificationRepository.deleteAll(notification1);
+        notificationRepository.deleteAll(notification2);
+
         for(Ghost ghost:ghosts){ ghost.softDelete(); }
 
         member.softDelete();
