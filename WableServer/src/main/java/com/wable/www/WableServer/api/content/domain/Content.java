@@ -32,6 +32,9 @@ public class Content extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @NotNull
+    private String contentTitle;
+
 //    @NotNull
     private String contentText;
 
