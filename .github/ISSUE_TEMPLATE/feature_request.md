@@ -1,3 +1,21 @@
+---
+name: Feature request
+about: Feature request
+title: ''
+labels: ''
+assignees: ''
+
+---
+
+---
+name: Feature Request
+about: 기능 개발 Template
+title: ''
+labels: ''
+assignees: ''
+
+---
+
 ## 🚀 About Issue 🚀
 <!-- 이슈에 대한 내용을 설명해주세요. -->
 
