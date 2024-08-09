@@ -58,6 +58,7 @@ public class ContentCommandService {
 
         Content content = contentRepository.save(Content.builder()
                 .member(member)
+                .contentTitle(contentPostRequestDto.contentTitle())
                 .contentText(contentPostRequestDto.contentText())
                 .build());
 

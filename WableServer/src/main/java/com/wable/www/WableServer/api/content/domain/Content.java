@@ -56,9 +56,11 @@ public class Content extends BaseTimeEntity {
         this.contentImage = contentImageUrl ;}
 
     @Builder
-    public Content(Member member, String contentText) {
+    public Content(Member member, String contentTitle, String contentText) {
         this.member = member;
+        this.contentTitle = contentTitle;
         this.contentText = contentText;
+        this.contentImage = "";
     }
 
     public void softDelete() {
