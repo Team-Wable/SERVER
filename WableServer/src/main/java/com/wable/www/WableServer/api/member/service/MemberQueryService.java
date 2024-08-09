@@ -27,7 +27,9 @@ public class MemberQueryService {
     public MemberGetProfileResponseDto getMemberProfile(Long memberId) {
         Member member = memberRepository.findMemberByIdOrThrow(memberId);
         int memberGhost = GhostUtil.refineGhost(member.getMemberGhost());
-        return MemberGetProfileResponseDto.of(member, memberGhost);
+        //todo : 멤버 경험치 레벨로 변환하는 함수 적용
+        int memberLevel = member.getMemberExp();
+        return MemberGetProfileResponseDto.of(member, memberGhost, memberLevel);
     }
 
     public void checkNicknameValidate(Long memberId, String nickname) {

@@ -7,15 +7,21 @@ public record MemberGetProfileResponseDto(
         String nickname,
         String memberProfileUrl,
         String memberIntro,
-        int memberGhost
+        int memberGhost,
+        String memberFanTeam,
+        int memberLckYears,
+        int memberLevel
 ) {
-    public static MemberGetProfileResponseDto of(Member member, int memberGhost){
+    public static MemberGetProfileResponseDto of(Member member, int memberGhost, int memberLevel){
         return new MemberGetProfileResponseDto(
                 member.getId(),
                 member.getNickname(),
                 member.getProfileUrl(),
                 member.getMemberIntro(),
-                memberGhost
+                memberGhost,
+                member.getMemberFanTeam(),
+                member.getMemberLckYears(),
+                memberLevel
         );
     }
 }
