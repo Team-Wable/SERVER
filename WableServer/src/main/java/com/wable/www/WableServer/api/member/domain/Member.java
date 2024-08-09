@@ -2,6 +2,7 @@ package com.wable.www.WableServer.api.member.domain;
 
 import com.wable.www.WableServer.api.ghost.domain.Ghost;
 import com.wable.www.WableServer.api.auth.SocialPlatform;
+import com.wable.www.WableServer.api.lck.domain.LckTeamName;
 import com.wable.www.WableServer.api.notification.domain.Notification;
 import com.wable.www.WableServer.api.report.domain.Report;
 import com.wable.www.WableServer.common.entity.BaseTimeEntity;
@@ -9,6 +10,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.checkerframework.checker.units.qual.C;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +78,15 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "fcm_badge", columnDefinition = "INTEGER DEFAULT 0")
     private int fcmBadge;
+
+    @Column(name = "fan_team")
+    private LckTeamName lckTeamName;
+
+    @Column(name = "member_lck_years")
+    private int memberLckYears;
+
+    @Column(name = "member_exp", columnDefinition = "INTEGER DEFAULT 0")
+    private int memberExp;
 
     @OneToMany(mappedBy = "notificationTargetMember",cascade = ALL)
     private List<Notification> targetNotification = new ArrayList<>();
