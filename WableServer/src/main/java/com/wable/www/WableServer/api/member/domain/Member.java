@@ -158,4 +158,8 @@ public class Member extends BaseTimeEntity {
     public void resetFcmBadge() { this.fcmBadge = 0;}
 
     public void updateFcmBadge(int newFcmBadge) { this.fcmBadge = newFcmBadge;}
+
+    public void updateMemberFanTeam(String memberFanTeam) { this.memberFanTeam = memberFanTeam;}
+
+    public void updateMemberLckYears(int memberLckYears) { this.memberLckYears = memberLckYears;}
 }

@@ -125,7 +125,7 @@ public class MemberCommandService {
             existingMember.updateMemberIsAlarmAllowed(memberProfilePatchRequestDto.is_alarm_allowed());
         }
         // 저장
-        Member savedMember = memberRepository.save(existingMember);
+        memberRepository.save(existingMember);
     }
 
     public void updateMemberProfile2(Long memberId, MultipartFile multipartFile, ProfilePatchRequestDto profilePatchRequestDto) {
@@ -162,10 +162,16 @@ public class MemberCommandService {
         if (profilePatchRequestDto.isPushAlarmAllowed() != null) {
             existingMember.updateMemberIsPushAlarmAllowed(profilePatchRequestDto.isPushAlarmAllowed());
         }
+        if (profilePatchRequestDto.memberFanTeam() != null) {
+            existingMember.updateMemberFanTeam(profilePatchRequestDto.memberFanTeam());
+        }
         if (profilePatchRequestDto.fcmToken() != null) {
             existingMember.updateMemberFcmToken(profilePatchRequestDto.fcmToken());
         }
-        Member savedMember = memberRepository.save(existingMember);
+		if (profilePatchRequestDto.memberLckYears() != null) {
+            existingMember.updateMemberLckYears(profilePatchRequestDto.memberLckYears());
+        }
+        memberRepository.save(existingMember);
     }
 
     public void resetMemberFcmBadge(Long memberId) {
