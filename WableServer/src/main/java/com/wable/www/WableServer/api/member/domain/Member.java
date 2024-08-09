@@ -79,8 +79,8 @@ public class Member extends BaseTimeEntity {
     @Column(name = "fcm_badge", columnDefinition = "INTEGER DEFAULT 0")
     private int fcmBadge;
 
-    @Column(name = "fan_team")
-    private LckTeamName lckTeamName;
+    @Column(name = "member_fan_team")
+    private String memberFanTeam;
 
     @Column(name = "member_lck_years")
     private int memberLckYears;
@@ -111,7 +111,7 @@ public class Member extends BaseTimeEntity {
         this.memberEmail = memberEmail;
         this.socialNickname = socialNickname;
         this.fcmBadge = 0;
-        this.lckTeamName = LckTeamName.LCK;
+        this.memberFanTeam = "";
         this.memberLckYears = 0;
         this.memberExp = 0;
     }

@@ -70,7 +70,15 @@ public class AuthServiceImpl implements AuthService {
                 String accessToken = jwtTokenProvider.generateAccessToken(authentication);
                 member.updateRefreshToken(refreshToken);
 
-                return AuthResponseDto.of(member.getNickname(), member.getId(), accessToken, refreshToken, member.getProfileUrl(), true, member.getIsPushAlarmAllowed());
+                //todo : 나중에 경험치 레벨로 바꾸는 함수 적용
+                int memberLevel = member.getMemberExp();
+
+                //todo : 추후 팀 로고를 통해서 저장된 s3값 가져오는 함수 적용
+                String memberFanTeamLogo = "";
+
+                return AuthResponseDto.of(member.getNickname(), member.getId(), accessToken, refreshToken, member.getProfileUrl(),
+                        true, member.getIsPushAlarmAllowed(), member.getMemberFanTeam(), member.getMemberLckYears(),
+                        memberLevel, memberFanTeamLogo);
 
             }
             else {
@@ -91,7 +99,15 @@ public class AuthServiceImpl implements AuthService {
 
                 String accessToken = jwtTokenProvider.generateAccessToken(authentication);
 
-                return AuthResponseDto.of(signedMember.getNickname(), signedMember.getId(), accessToken, refreshToken, signedMember.getProfileUrl(), false, signedMember.getIsPushAlarmAllowed());
+                //todo : 나중에 경험치 레벨로 바꾸는 함수 적용
+                int signedMemberLevel = signedMember.getMemberExp();
+
+                //todo : 추후 팀 로고를 통해서 저장된 s3값 가져오는 함수 적용
+                String signedMemberFanTeamLogo = "";
+
+                return AuthResponseDto.of(signedMember.getNickname(), signedMember.getId(), accessToken,
+                        refreshToken, signedMember.getProfileUrl(), false, signedMember.getIsPushAlarmAllowed(),
+                        signedMember.getMemberFanTeam(), signedMember.getMemberLckYears(), signedMemberLevel, signedMemberFanTeamLogo);
             }
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException(ErrorStatus.ANOTHER_ACCESS_TOKEN.getMessage());

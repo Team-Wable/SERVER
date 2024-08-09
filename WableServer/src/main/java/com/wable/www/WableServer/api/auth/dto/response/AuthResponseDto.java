@@ -22,5 +22,13 @@ public class AuthResponseDto {
     private Boolean isNewUser;
 
     private Boolean isPushAlarmAllowed;
+
+    private String memberFanTeam;
+
+    private int memberLckYears;
+
+    private int memberLevel;
+
+    private String memberFanTeamLogo;
 }
 
