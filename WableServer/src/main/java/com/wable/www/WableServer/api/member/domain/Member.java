@@ -111,6 +111,9 @@ public class Member extends BaseTimeEntity {
         this.memberEmail = memberEmail;
         this.socialNickname = socialNickname;
         this.fcmBadge = 0;
+        this.lckTeamName = LckTeamName.LCK;
+        this.memberLckYears = 0;
+        this.memberExp = 0;
     }
 
     public void decreaseGhost() {
