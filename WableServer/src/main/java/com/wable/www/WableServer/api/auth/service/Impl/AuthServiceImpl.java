@@ -14,6 +14,7 @@ import com.wable.www.WableServer.common.exception.BadRequestException;
 import com.wable.www.WableServer.common.response.ErrorStatus;
 import com.wable.www.WableServer.common.config.jwt.JwtTokenProvider;
 import com.wable.www.WableServer.common.config.jwt.UserAuthentication;
+import com.wable.www.WableServer.common.util.MemberUtil;
 import com.wable.www.WableServer.external.slack.service.SlackService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -70,8 +71,7 @@ public class AuthServiceImpl implements AuthService {
                 String accessToken = jwtTokenProvider.generateAccessToken(authentication);
                 member.updateRefreshToken(refreshToken);
 
-                //todo : 나중에 경험치 레벨로 바꾸는 함수 적용
-                int memberLevel = member.getMemberExp();
+                int memberLevel = MemberUtil.refineMemberExpToLevel(member.getMemberExp());
 
                 //todo : 추후 팀 로고를 통해서 저장된 s3값 가져오는 함수 적용
                 String memberFanTeamLogo = "";
@@ -99,8 +99,7 @@ public class AuthServiceImpl implements AuthService {
 
                 String accessToken = jwtTokenProvider.generateAccessToken(authentication);
 
-                //todo : 나중에 경험치 레벨로 바꾸는 함수 적용
-                int signedMemberLevel = signedMember.getMemberExp();
+                int signedMemberLevel = MemberUtil.refineMemberExpToLevel(signedMember.getMemberExp());
 
                 //todo : 추후 팀 로고를 통해서 저장된 s3값 가져오는 함수 적용
                 String signedMemberFanTeamLogo = "";
