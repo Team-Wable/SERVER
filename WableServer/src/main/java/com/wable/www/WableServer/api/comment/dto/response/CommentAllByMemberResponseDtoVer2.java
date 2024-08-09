@@ -16,7 +16,9 @@ public record CommentAllByMemberResponseDtoVer2(
         String time, //답글이 작성된 시간 (년-월-일 시:분:초)
         long    commentId,    //댓글 Id
         long contentId , //	해당 댓글이 적힌 게시물 Id
-        String commentImageUrl
+        String commentImageUrl,
+        String memberFanTeam
+
 ) {
     public static CommentAllByMemberResponseDtoVer2 of(Member writerMember, boolean isLiked, boolean isGhost,
                                                        int memberGhost, int commentLikedNumber, Comment comment){
@@ -32,7 +34,8 @@ public record CommentAllByMemberResponseDtoVer2(
                 TimeUtilCustom.refineTime(comment.getCreatedAt()),
                 comment.getId(),
                 comment.getContent().getId(),
-                comment.getCommentImage()
+                comment.getCommentImage(),
+                writerMember.getMemberFanTeam()
         );
     }
 }

@@ -15,7 +15,8 @@ public record CommentAllByMemberResponseDto(
         String commentText,  //	답글 내용
         String time, //답글이 작성된 시간 (년-월-일 시:분:초)
         long    commentId,    //댓글 Id
-        long contentId //	해당 댓글이 적힌 게시물 Id
+        long contentId, //	해당 댓글이 적힌 게시물 Id
+        String memberFanTeam
 ) {
     public static CommentAllByMemberResponseDto of(Member writerMember, boolean isLiked, boolean isGhost,
     int memberGhost, int commentLikedNumber, Comment comment){
@@ -30,7 +31,8 @@ public record CommentAllByMemberResponseDto(
                 comment.getCommentText(),
                 TimeUtilCustom.refineTime(comment.getCreatedAt()),
                 comment.getId(),
-                comment.getContent().getId()
+                comment.getContent().getId(),
+                writerMember.getMemberFanTeam()
         );
     }
 }
