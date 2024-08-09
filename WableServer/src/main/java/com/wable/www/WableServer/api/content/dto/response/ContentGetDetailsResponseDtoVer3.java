@@ -14,10 +14,11 @@ public record ContentGetDetailsResponseDtoVer3(
         int likedNumber,
         int commentNumber,
         String contentTitle,
-
         String contentText,
         Boolean isDeleted,
-        String contentImageUrl
+        String contentImageUrl,
+        String memberFanTeam
+
 ) {
     public static ContentGetDetailsResponseDtoVer3 of(Member member, int memberGhost, Content content, boolean isGhost, boolean isLiked, String time, int likedNumber, int commentNumber) {
         return new ContentGetDetailsResponseDtoVer3(
@@ -33,7 +34,8 @@ public record ContentGetDetailsResponseDtoVer3(
                 content.getContentTitle(),
                 content.getContentText(),
                 member.isDeleted(),
-                content.getContentImage()
+                content.getContentImage(),
+                member.getMemberFanTeam()
         );
     }
 }

@@ -15,7 +15,8 @@ public record ContentGetAllByMemberResponseDto(
         int memberGhost,
         boolean isLiked,
         int likedNumber,
-        int commentNumber
+        int commentNumber,
+        String memberFanTeam
 ) {
     public static ContentGetAllByMemberResponseDto of(Member writerMember,int writerGhost, Content content, boolean isGhost, boolean isLiked, String time, int likedNumber, int commentNumber) {
         return new ContentGetAllByMemberResponseDto(
@@ -30,7 +31,8 @@ public record ContentGetAllByMemberResponseDto(
                 writerGhost,
                 isLiked,
                 likedNumber,
-                commentNumber
+                commentNumber,
+                writerMember.getMemberFanTeam()
         );
     }
 }

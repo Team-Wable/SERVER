@@ -16,7 +16,9 @@ public record ContentGetAllResponseDtoVer2(
         boolean isLiked,
         int likedNumber,
         int commentNumber,
-        Boolean isDeleted
+        Boolean isDeleted,
+        String memberFanTeam
+
 ) {
     public static ContentGetAllResponseDtoVer2 of(Member writerMember, Content content, boolean isGhost, int refinedMemberGhost, boolean isLiked, String time, int likedNumber, int commentNumber) {
         return new ContentGetAllResponseDtoVer2(
@@ -32,7 +34,8 @@ public record ContentGetAllResponseDtoVer2(
                 isLiked,
                 likedNumber,
                 commentNumber,
-                writerMember.isDeleted()
+                writerMember.isDeleted(),
+                writerMember.getMemberFanTeam()
         );
     }
 }

@@ -14,7 +14,9 @@ public record ContentGetDetailsResponseDto(
         int likedNumber,
         int commentNumber,
         String contentTitle,
-        String contentText
+        String contentText,
+        String memberFanTeam
+
 ) {
     public static ContentGetDetailsResponseDto of(Member member, int memberGhost, Content content, boolean isGhost, boolean isLiked, String time, int likedNumber, int commentNumber){
         return new ContentGetDetailsResponseDto(
@@ -28,7 +30,8 @@ public record ContentGetDetailsResponseDto(
                 likedNumber,
                 commentNumber,
                 content.getContentTitle(),
-                content.getContentText()
+                content.getContentText(),
+                member.getMemberFanTeam()
         );
     }
 }

@@ -9,7 +9,6 @@ public record ContentGetAllByMemberResponseDtoVer2(
         String memberNickname,
         Long contentId,
         String contentTitle,
-
         String contentText,
         String time,
         boolean isGhost,
@@ -17,7 +16,9 @@ public record ContentGetAllByMemberResponseDtoVer2(
         boolean isLiked,
         int likedNumber,
         int commentNumber,
-        String contentImageUrl
+        String contentImageUrl,
+        String memberFanTeam
+
 ) {
     public static ContentGetAllByMemberResponseDtoVer2 of(Member writerMember, int writerGhost, Content content, boolean isGhost, boolean isLiked, String time, int likedNumber, int commentNumber) {
         return new ContentGetAllByMemberResponseDtoVer2(
@@ -33,7 +34,8 @@ public record ContentGetAllByMemberResponseDtoVer2(
                 isLiked,
                 likedNumber,
                 commentNumber,
-                content.getContentImage()
+                content.getContentImage(),
+                writerMember.getMemberFanTeam()
         );
     }
 }
