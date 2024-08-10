@@ -73,12 +73,9 @@ public class AuthServiceImpl implements AuthService {
 
                 int memberLevel = MemberUtil.refineMemberExpToLevel(member.getMemberExp());
 
-                //todo : 추후 팀 로고를 통해서 저장된 s3값 가져오는 함수 적용
-                String memberFanTeamLogo = "";
-
                 return AuthResponseDto.of(member.getNickname(), member.getId(), accessToken, refreshToken, member.getProfileUrl(),
                         true, member.getIsPushAlarmAllowed(), member.getMemberFanTeam(), member.getMemberLckYears(),
-                        memberLevel, memberFanTeamLogo);
+                        memberLevel);
 
             }
             else {
@@ -101,12 +98,9 @@ public class AuthServiceImpl implements AuthService {
 
                 int signedMemberLevel = MemberUtil.refineMemberExpToLevel(signedMember.getMemberExp());
 
-                //todo : 추후 팀 로고를 통해서 저장된 s3값 가져오는 함수 적용
-                String signedMemberFanTeamLogo = "";
-
                 return AuthResponseDto.of(signedMember.getNickname(), signedMember.getId(), accessToken,
                         refreshToken, signedMember.getProfileUrl(), false, signedMember.getIsPushAlarmAllowed(),
-                        signedMember.getMemberFanTeam(), signedMember.getMemberLckYears(), signedMemberLevel, signedMemberFanTeamLogo);
+                        signedMember.getMemberFanTeam(), signedMember.getMemberLckYears(), signedMemberLevel);
             }
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException(ErrorStatus.ANOTHER_ACCESS_TOKEN.getMessage());

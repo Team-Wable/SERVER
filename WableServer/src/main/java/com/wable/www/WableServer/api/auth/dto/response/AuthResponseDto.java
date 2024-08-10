@@ -28,7 +28,4 @@ public class AuthResponseDto {
     private int memberLckYears;
 
     private int memberLevel;
-
-    private String memberFanTeamLogo;
 }
-
