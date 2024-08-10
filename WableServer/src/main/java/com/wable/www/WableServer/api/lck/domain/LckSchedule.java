@@ -23,13 +23,13 @@ public class LckSchedule {
 	private String teamAName;
 
 	@Column(name = "team_a_score")
-	private String teamAScore;
+	private int teamAScore;
 
 	@Column(name = "team_b_name")
 	private String teamBName;
 
 	@Column(name = "team_b_score")
-	private String teamBScore;
+	private int teamBScore;
 
 	private GameState gameState;
 }
