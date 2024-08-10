@@ -48,7 +48,7 @@ public class InfoNotificationController {
 		return ApiResponse.success(POST_GAMESTART_INFONOTIFICATION_SUCCESS);
 	}
 
-	@PostMapping("notification/info/manage/gamedone")
+	@PostMapping("notification/info/manage/weekdone")
 	@Operation(summary = "XX운영용 weekdone 정보 노티 발생.XX", description = "XXXXXXX")
 	public ResponseEntity<ApiResponse<Object>> postWeekDoneInfoNotification() {
 		infoNotificationCommandService.postWeekDoneInfoNotification();
