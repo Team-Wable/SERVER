@@ -7,10 +7,10 @@ public record LckRankingGetDto(
 		String teamName,
 		int teamWin,
 		int teamDefeat,
-		double winningRate,
+		int winningRate,
 		int scoreDiff
 ) {
-	public static LckRankingGetDto of(LckRanking lckRanking, double winningRate) {
+	public static LckRankingGetDto of(LckRanking lckRanking, int winningRate) {
 		return new LckRankingGetDto(
 				lckRanking.getLckRanking(),
 				lckRanking.getLckTeamName(),
