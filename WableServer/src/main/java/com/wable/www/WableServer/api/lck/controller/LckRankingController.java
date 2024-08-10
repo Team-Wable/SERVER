@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 import static com.wable.www.WableServer.common.response.SuccessStatus.*;
 
 @RestController
@@ -23,7 +25,7 @@ public class LckRankingController {
 
 	@GetMapping("v1/information/rank")
 	@Operation(summary = "Lck Ranking API입니다.", description = "RankingGet")
-	public ResponseEntity<ApiResponse<Object>> getLckRanking() {
+	public ResponseEntity<ApiResponse<Object>> getLckRanking(Principal principal) {
 		return ApiResponse.success(GET_LCK_RANKING_SUCCESS, lckRankingQueryService.getLckRanking());
 
 	}

@@ -3,6 +3,7 @@ package com.wable.www.WableServer.api.notification.domain;
 import com.wable.www.WableServer.api.member.domain.Member;
 import com.wable.www.WableServer.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,10 @@ public class InfoNotification extends BaseTimeEntity {
 	private Member infoNotificationTargetMember;
 
 	private InfoNotificationType infoNotificationType;
+
+	@Builder
+	public InfoNotification(Member infoNotificationTargetMember, InfoNotificationType infoNotificationType) {
+		this.infoNotificationTargetMember = infoNotificationTargetMember;
+		this.infoNotificationType = infoNotificationType;
+	}
 }

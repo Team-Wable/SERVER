@@ -54,6 +54,10 @@ public enum SuccessStatus {
      */
     READ_NOTIFICATION_SUCCESS(HttpStatus.OK,"노티 체크 성공"),
     COUNT_NOTIFICATION_SUCCESS(HttpStatus.OK,"노티 개수 체크 완료"),
+    POST_GAMEDONE_INFONOTIFICATION_SUCCESS(HttpStatus.CREATED,"게임 종료 정보 노티 생성 완료"),
+    POST_GAMESTART_INFONOTIFICATION_SUCCESS(HttpStatus.CREATED,"게임 시작 정보 노티 생성 완료"),
+    POST_WEEKDONE_INFONOTIFICATION_SUCCESS(HttpStatus.CREATED,"한 주 종료 정보 노티 생성 완료"),
+
     /**
      * report
      */

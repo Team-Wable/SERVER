@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 import static com.wable.www.WableServer.common.response.SuccessStatus.*;
 
 @RestController
@@ -23,7 +25,7 @@ public class LckGameTypeController {
 
 	@GetMapping("v1/information/gametype")
 	@Operation(summary = "Lck Game Type API입니다.", description = "LckGameTypeGet")
-	public ResponseEntity<ApiResponse<Object>> getGameType() {
+	public ResponseEntity<ApiResponse<Object>> getGameType(Principal principal) {
 		return ApiResponse.success(GET_LCK_GAMETYPE_SUCCESS, lckGameTypeQueryService.getLckGameType());
 	}
 

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 import static com.wable.www.WableServer.common.response.SuccessStatus.*;
 
 @RestController
@@ -23,7 +25,7 @@ public class LckScheduleController {
 
 	@GetMapping("v1/information/schedule")
 	@Operation(summary = "Lck Schedule API입니다.", description = "ScheduleGet")
-	public ResponseEntity<ApiResponse<Object>> getLckSchedule() {
+	public ResponseEntity<ApiResponse<Object>> getLckSchedule(Principal principal) {
 		return ApiResponse.success(GET_LCK_SCHEDULE_SUCCESS, lckScheduleQueryService.getLckSchedule());
 	}
 }
