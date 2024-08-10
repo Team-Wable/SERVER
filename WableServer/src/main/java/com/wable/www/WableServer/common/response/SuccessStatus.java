@@ -47,6 +47,8 @@ public enum SuccessStatus {
     PATCH_MEMBER_PROFILE(HttpStatus.OK, "프로필 수정 완료"),
     NICKNAME_CHECK_SUCCESS(HttpStatus.OK, "사용 가능한 닉네임 입니다."),
     NOTIFICATION_ALL_SUCCESS(HttpStatus.OK,"알림 전체 조회 성공"),
+    INFO_NOTIFICATION_ALL_SUCCESS(HttpStatus.OK,"정보 알림 전체 조회 성공"),
+
     /**
      * notification
      */
