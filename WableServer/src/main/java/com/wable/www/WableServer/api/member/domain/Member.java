@@ -2,7 +2,6 @@ package com.wable.www.WableServer.api.member.domain;
 
 import com.wable.www.WableServer.api.ghost.domain.Ghost;
 import com.wable.www.WableServer.api.auth.SocialPlatform;
-import com.wable.www.WableServer.api.lck.domain.LckTeamName;
 import com.wable.www.WableServer.api.notification.domain.Notification;
 import com.wable.www.WableServer.api.report.domain.Report;
 import com.wable.www.WableServer.common.entity.BaseTimeEntity;
@@ -10,7 +9,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.checkerframework.checker.units.qual.C;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
