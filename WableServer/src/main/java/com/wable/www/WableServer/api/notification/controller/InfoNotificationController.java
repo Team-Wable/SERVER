@@ -34,21 +34,21 @@ public class InfoNotificationController {
 				infoNotificationQueryService.getInfoNotification(memberId));
 	}
 
-	@PostMapping("notification/info/manage/gamedone")
+	@GetMapping("notification/info/manage/gamedone")
 	@Operation(summary = "XX운영용 gamedone 정보 노티 발생.XX", description = "XXXXXXX")
 	public ResponseEntity<ApiResponse<Object>> postGameDoneInfoNotification() {
 		infoNotificationCommandService.postGameDoneInfoNotification();
 		return ApiResponse.success(POST_GAMEDONE_INFONOTIFICATION_SUCCESS);
 	}
 
-	@PostMapping("notification/info/manage/gamestart")
+	@GetMapping("notification/info/manage/gamestart")
 	@Operation(summary = "XX운영용 gamestart 정보 노티 발생.XX", description = "XXXXXXX")
 	public ResponseEntity<ApiResponse<Object>> postGameStartInfoNotification() {
 		infoNotificationCommandService.postGameStartInfoNotification();
 		return ApiResponse.success(POST_GAMESTART_INFONOTIFICATION_SUCCESS);
 	}
 
-	@PostMapping("notification/info/manage/weekdone")
+	@GetMapping("notification/info/manage/weekdone")
 	@Operation(summary = "XX운영용 weekdone 정보 노티 발생.XX", description = "XXXXXXX")
 	public ResponseEntity<ApiResponse<Object>> postWeekDoneInfoNotification() {
 		infoNotificationCommandService.postWeekDoneInfoNotification();

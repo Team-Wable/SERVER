@@ -31,5 +31,6 @@ public class LckSchedule {
 	@Column(name = "team_b_score")
 	private int teamBScore;
 
+	@Enumerated(EnumType.STRING)
 	private GameState gameState;
 }

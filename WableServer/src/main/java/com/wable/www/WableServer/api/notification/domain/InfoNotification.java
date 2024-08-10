@@ -21,6 +21,7 @@ public class InfoNotification extends BaseTimeEntity {
 	@JoinColumn(name = "target_member_id")
 	private Member infoNotificationTargetMember;
 
+	@Enumerated(EnumType.STRING)
 	private InfoNotificationType infoNotificationType;
 
 	@Builder
