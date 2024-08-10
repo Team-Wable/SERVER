@@ -55,7 +55,13 @@ public enum SuccessStatus {
     /**
      * report
      */
-    REPORT_SLACK_ALARM_SUCCESS(HttpStatus.CREATED, "신고 관련 슬랙 알림 발생 성공")
+    REPORT_SLACK_ALARM_SUCCESS(HttpStatus.CREATED, "신고 관련 슬랙 알림 발생 성공"),
+    /**
+     * Lck Game
+     */
+    GET_LCK_RANKING_SUCCESS(HttpStatus.OK, "랭킹 목록 조회 성공"),
+    GET_LCK_SCHEDULE_SUCCESS(HttpStatus.OK, "경기 일정 조회 성공"),
+    GET_LCK_GAMETYPE_SUCCESS(HttpStatus.OK, "경기 종목 조회 성공")
     ;
 
     private final HttpStatus httpStatus;
