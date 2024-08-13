@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class InfoNotificationQueryService {
+	private static final Logger log = LoggerFactory.getLogger(InfoNotificationQueryService.class);
+
 	@Value("${aws-property.s3-info-image-url}")
 	private String INFO_IMAGE_S3;
 
