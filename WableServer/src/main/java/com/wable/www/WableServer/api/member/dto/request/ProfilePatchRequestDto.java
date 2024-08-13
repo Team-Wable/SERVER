@@ -7,6 +7,8 @@ public record ProfilePatchRequestDto (
         Boolean isAlarmAllowed,
         String memberIntro,
         Boolean isPushAlarmAllowed,
-        String fcmToken
+        String fcmToken,
+		String memberFanTeam,
+		Integer memberLckYears
 ){
 }

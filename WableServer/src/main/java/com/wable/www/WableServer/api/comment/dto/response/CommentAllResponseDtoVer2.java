@@ -13,7 +13,9 @@ public record CommentAllResponseDtoVer2(
         int commentLikedNumber,	//댓글의 좋아요 개수
         String commentText,	//댓글 내용
         String  time,	//답글이 작성된 시간을 (년-월-일 시:분:초)
-        Boolean isDeleted   // 댓글 작성자가 탈퇴한 회원인지 아닌지
+        Boolean isDeleted,   // 댓글 작성자가 탈퇴한 회원인지 아닌지
+        String memberFanTeam
+
 ) {
     public static CommentAllResponseDtoVer2 of(Long commentId, Member writerMember, boolean isGhost, int memberGhost, boolean isLiked, String time, int likedNumber, String commentText){
         return new CommentAllResponseDtoVer2(
@@ -27,7 +29,8 @@ public record CommentAllResponseDtoVer2(
                 likedNumber,
                 commentText,
                 time,
-                writerMember.isDeleted()
+                writerMember.isDeleted(),
+                writerMember.getMemberFanTeam()
         );
     }
 }

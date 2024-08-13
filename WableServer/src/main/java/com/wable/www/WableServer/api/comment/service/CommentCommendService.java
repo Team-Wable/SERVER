@@ -41,6 +41,8 @@ public class CommentCommendService {
         Content content = contentRepository.findContentByIdOrThrow(contentId); // 게시물id 잘못됐을 때 에러
         Member usingMember = memberRepository.findMemberByIdOrThrow(memberId);   //사용하고 있는 회원
 
+        usingMember.increaseExpPostComment();
+
         GhostUtil.isGhostMember(usingMember.getMemberGhost());
 
         Comment comment = Comment.builder()
@@ -65,11 +67,36 @@ public class CommentCommendService {
                     .build();
             Notification savedNotification = notificationRepository.save(notification);
         }
+
+        if (Boolean.TRUE.equals(contentWritingMember.getIsPushAlarmAllowed())) {
+            String FcmMessageTitle = usingMember.getNickname() + "님이 답글을 작성했습니다.";
+            contentWritingMember.increaseFcmBadge();
+            FcmMessageDto commentFcmMessage = FcmMessageDto.builder()
+                    .validateOnly(false)
+                    .message(FcmMessageDto.Message.builder()
+                            .notificationDetails(FcmMessageDto.NotificationDetails.builder()
+                                    .title(FcmMessageTitle)
+                                    .body(commentPostRequestDto.commentText())
+                                    .build())
+                            .token(contentWritingMember.getFcmToken())
+                            .data(FcmMessageDto.Data.builder()
+                                    .name("comment")
+                                    .description("답글 푸시 알림")
+                                    .relateContentId(String.valueOf(contentId))
+                                    .build())
+                            .badge(contentWritingMember.getFcmBadge())
+                            .build())
+                    .build();
+
+            fcmService.sendMessage(commentFcmMessage);
+        }
     }
 
     public void postCommentVer2(Long memberId, Long contentId, MultipartFile commentImage, CommentPostRequestDto commentPostRequestDto){
         Content content = contentRepository.findContentByIdOrThrow(contentId);
         Member usingMember = memberRepository.findMemberByIdOrThrow(memberId);
+
+        usingMember.increaseExpPostComment();
 
         GhostUtil.isGhostMember(usingMember.getMemberGhost());
 
@@ -158,6 +185,8 @@ public class CommentCommendService {
         Member triggerMember = memberRepository.findMemberByIdOrThrow(memberId);
         Comment comment = commentRepository.findCommentByIdOrThrow(commentId);
         Long contentId = comment.getContent().getId();
+
+        triggerMember.increaseExpPostLike();
 
         isDuplicateCommentLike(comment, triggerMember);
 

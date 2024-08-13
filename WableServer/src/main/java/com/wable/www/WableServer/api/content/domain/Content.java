@@ -32,6 +32,9 @@ public class Content extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @NotNull
+    private String contentTitle;
+
 //    @NotNull
     private String contentText;
 
@@ -53,9 +56,11 @@ public class Content extends BaseTimeEntity {
         this.contentImage = contentImageUrl ;}
 
     @Builder
-    public Content(Member member, String contentText) {
+    public Content(Member member, String contentTitle, String contentText) {
         this.member = member;
+        this.contentTitle = contentTitle;
         this.contentText = contentText;
+        this.contentImage = "";
     }
 
     public void softDelete() {

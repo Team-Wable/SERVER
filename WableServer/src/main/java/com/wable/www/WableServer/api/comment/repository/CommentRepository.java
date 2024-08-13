@@ -2,6 +2,7 @@ package com.wable.www.WableServer.api.comment.repository;
 
 import com.wable.www.WableServer.api.comment.domain.Comment;
 import com.wable.www.WableServer.api.content.domain.Content;
+import com.wable.www.WableServer.api.member.domain.Member;
 import com.wable.www.WableServer.common.exception.NotFoundException;
 import com.wable.www.WableServer.common.response.ErrorStatus;
 import org.springframework.data.domain.PageRequest;
@@ -42,6 +43,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     }
 
     void deleteCommentsByMemberId(Long memberId);
+
+    List<Comment> findAllByMember(Member member);
 
     @Transactional
     @Modifying

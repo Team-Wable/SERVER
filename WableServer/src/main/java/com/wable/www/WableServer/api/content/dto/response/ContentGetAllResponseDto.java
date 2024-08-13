@@ -8,13 +8,16 @@ public record ContentGetAllResponseDto(
         String memberProfileUrl,
         String memberNickname,
         Long contentId,
+        String contentTitle,
         String contentText,
         String time,
         boolean isGhost,
         int memberGhost,
         boolean isLiked,
         int likedNumber,
-        int commentNumber
+        int commentNumber,
+        String memberFanTeam
+
 ) {
     public static ContentGetAllResponseDto of(Member writerMember, Content content, boolean isGhost, int refinedMemberGhost, boolean isLiked, String time, int likedNumber, int commentNumber) {
         return new ContentGetAllResponseDto(
@@ -22,13 +25,15 @@ public record ContentGetAllResponseDto(
                 writerMember.getProfileUrl(),
                 writerMember.getNickname(),
                 content.getId(),
+                content.getContentTitle(),
                 content.getContentText(),
                 time,
                 isGhost,
                 refinedMemberGhost,
                 isLiked,
                 likedNumber,
-                commentNumber
+                commentNumber,
+                writerMember.getMemberFanTeam()
         );
     }
 }

@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,15 @@ public class Member extends BaseTimeEntity {
     @Column(name = "fcm_badge", columnDefinition = "INTEGER DEFAULT 0")
     private int fcmBadge;
 
+    @Column(name = "member_fan_team")
+    private String memberFanTeam;
+
+    @Column(name = "member_lck_years")
+    private int memberLckYears;
+
+    @Column(name = "member_exp", columnDefinition = "INTEGER DEFAULT 0")
+    private double memberExp;
+
     @OneToMany(mappedBy = "notificationTargetMember",cascade = ALL)
     private List<Notification> targetNotification = new ArrayList<>();
 
@@ -99,6 +109,9 @@ public class Member extends BaseTimeEntity {
         this.memberEmail = memberEmail;
         this.socialNickname = socialNickname;
         this.fcmBadge = 0;
+        this.memberFanTeam = "";
+        this.memberLckYears = 0;
+        this.memberExp = 0;
     }
 
     public void decreaseGhost() {
@@ -143,4 +156,14 @@ public class Member extends BaseTimeEntity {
     public void resetFcmBadge() { this.fcmBadge = 0;}
 
     public void updateFcmBadge(int newFcmBadge) { this.fcmBadge = newFcmBadge;}
+
+    public void updateMemberFanTeam(String memberFanTeam) { this.memberFanTeam = memberFanTeam;}
+
+    public void updateMemberLckYears(int memberLckYears) { this.memberLckYears = memberLckYears;}
+
+    public void increaseExpPostContent() { this.memberExp += 0.6;}
+
+    public void increaseExpPostComment() { this.memberExp += 3.0;}
+
+    public void increaseExpPostLike() { this.memberExp += 1.0;}
 }

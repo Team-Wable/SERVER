@@ -47,15 +47,27 @@ public enum SuccessStatus {
     PATCH_MEMBER_PROFILE(HttpStatus.OK, "프로필 수정 완료"),
     NICKNAME_CHECK_SUCCESS(HttpStatus.OK, "사용 가능한 닉네임 입니다."),
     NOTIFICATION_ALL_SUCCESS(HttpStatus.OK,"알림 전체 조회 성공"),
+    INFO_NOTIFICATION_ALL_SUCCESS(HttpStatus.OK,"정보 알림 전체 조회 성공"),
+
     /**
      * notification
      */
     READ_NOTIFICATION_SUCCESS(HttpStatus.OK,"노티 체크 성공"),
     COUNT_NOTIFICATION_SUCCESS(HttpStatus.OK,"노티 개수 체크 완료"),
+    POST_GAMEDONE_INFONOTIFICATION_SUCCESS(HttpStatus.CREATED,"게임 종료 정보 노티 생성 완료"),
+    POST_GAMESTART_INFONOTIFICATION_SUCCESS(HttpStatus.CREATED,"게임 시작 정보 노티 생성 완료"),
+    POST_WEEKDONE_INFONOTIFICATION_SUCCESS(HttpStatus.CREATED,"한 주 종료 정보 노티 생성 완료"),
+
     /**
      * report
      */
-    REPORT_SLACK_ALARM_SUCCESS(HttpStatus.CREATED, "신고 관련 슬랙 알림 발생 성공")
+    REPORT_SLACK_ALARM_SUCCESS(HttpStatus.CREATED, "신고 관련 슬랙 알림 발생 성공"),
+    /**
+     * Lck Game
+     */
+    GET_LCK_RANKING_SUCCESS(HttpStatus.OK, "랭킹 목록 조회 성공"),
+    GET_LCK_SCHEDULE_SUCCESS(HttpStatus.OK, "경기 일정 조회 성공"),
+    GET_LCK_GAMETYPE_SUCCESS(HttpStatus.OK, "경기 종목 조회 성공")
     ;
 
     private final HttpStatus httpStatus;

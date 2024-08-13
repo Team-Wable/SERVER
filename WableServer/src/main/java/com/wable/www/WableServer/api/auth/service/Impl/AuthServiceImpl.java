@@ -14,6 +14,7 @@ import com.wable.www.WableServer.common.exception.BadRequestException;
 import com.wable.www.WableServer.common.response.ErrorStatus;
 import com.wable.www.WableServer.common.config.jwt.JwtTokenProvider;
 import com.wable.www.WableServer.common.config.jwt.UserAuthentication;
+import com.wable.www.WableServer.common.util.MemberUtil;
 import com.wable.www.WableServer.external.slack.service.SlackService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +71,11 @@ public class AuthServiceImpl implements AuthService {
                 String accessToken = jwtTokenProvider.generateAccessToken(authentication);
                 member.updateRefreshToken(refreshToken);
 
-                return AuthResponseDto.of(member.getNickname(), member.getId(), accessToken, refreshToken, member.getProfileUrl(), true, member.getIsPushAlarmAllowed());
+                int memberLevel = MemberUtil.refineMemberExpToLevel(member.getMemberExp());
+
+                return AuthResponseDto.of(member.getNickname(), member.getId(), accessToken, refreshToken, member.getProfileUrl(),
+                        true, member.getIsPushAlarmAllowed(), member.getMemberFanTeam(), member.getMemberLckYears(),
+                        memberLevel);
 
             }
             else {
@@ -91,7 +96,11 @@ public class AuthServiceImpl implements AuthService {
 
                 String accessToken = jwtTokenProvider.generateAccessToken(authentication);
 
-                return AuthResponseDto.of(signedMember.getNickname(), signedMember.getId(), accessToken, refreshToken, signedMember.getProfileUrl(), false, signedMember.getIsPushAlarmAllowed());
+                int signedMemberLevel = MemberUtil.refineMemberExpToLevel(signedMember.getMemberExp());
+
+                return AuthResponseDto.of(signedMember.getNickname(), signedMember.getId(), accessToken,
+                        refreshToken, signedMember.getProfileUrl(), false, signedMember.getIsPushAlarmAllowed(),
+                        signedMember.getMemberFanTeam(), signedMember.getMemberLckYears(), signedMemberLevel);
             }
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException(ErrorStatus.ANOTHER_ACCESS_TOKEN.getMessage());

@@ -7,6 +7,7 @@ import com.wable.www.WableServer.api.member.repository.MemberRepository;
 import com.wable.www.WableServer.common.exception.BadRequestException;
 import com.wable.www.WableServer.common.response.ErrorStatus;
 import com.wable.www.WableServer.common.util.GhostUtil;
+import com.wable.www.WableServer.common.util.MemberUtil;
 import com.wable.www.WableServer.common.util.TimeUtilCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class MemberQueryService {
     private final MemberRepository memberRepository;
-
     public MemberDetailGetResponseDto getMemberDetail(Long memberId) {
         Member member = memberRepository.findMemberByIdOrThrow(memberId);
         String time = TimeUtilCustom.refineTimeMemberDetail(member.getCreatedAt());
@@ -27,7 +27,8 @@ public class MemberQueryService {
     public MemberGetProfileResponseDto getMemberProfile(Long memberId) {
         Member member = memberRepository.findMemberByIdOrThrow(memberId);
         int memberGhost = GhostUtil.refineGhost(member.getMemberGhost());
-        return MemberGetProfileResponseDto.of(member, memberGhost);
+        int memberLevel = MemberUtil.refineMemberExpToLevel(member.getMemberExp());
+        return MemberGetProfileResponseDto.of(member, memberGhost, memberLevel);
     }
 
     public void checkNicknameValidate(Long memberId, String nickname) {
