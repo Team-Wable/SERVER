@@ -30,7 +30,7 @@ public class NotificationQueryService {
     @Value("${aws-property.s3-system-image-url}")
     private String SYSTEM_IMAGE_S3;
 
-    @Value("${s3-popular-image-url}")
+    @Value("${aws-property.s3-popular-image-url}")
     private String POPULAR_IMAGE_S3;
     private final int NOTIFICATION_DEFAULT_PAGE_SIZE = 15;
 
