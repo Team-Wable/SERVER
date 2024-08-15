@@ -29,6 +29,9 @@ public class NotificationQueryService {
 
     @Value("${aws-property.s3-system-image-url}")
     private String SYSTEM_IMAGE_S3;
+
+    @Value("${aws-property.s3-popular-image-url}")
+    private String POPULAR_IMAGE_S3;
     private final int NOTIFICATION_DEFAULT_PAGE_SIZE = 15;
 
     public NotificaitonCountResponseDto countUnreadNotification(Long memberId) {
@@ -127,6 +130,9 @@ public class NotificationQueryService {
             Notification notification = notificationRepository.findNotificationById(notificationId);
             Member triggerMember = memberRepository.findMemberByIdOrThrow(notification.getNotificationTriggerMemberId());
             return triggerMember.getProfileUrl();
+        }
+        if(triggerType.equals("popularWriter")||triggerType.equals("popularContent")) {
+            return POPULAR_IMAGE_S3;
         }else{
             return SYSTEM_IMAGE_S3;
         }

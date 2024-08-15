@@ -30,8 +30,8 @@ import java.security.spec.InvalidKeySpecException;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    @Value("${aws-property.s3-default-image-url}")
-    private String GHOST_IMAGE_S3;
+//    @Value("${aws-property.s3-default-image-url}")
+//    private String GHOST_IMAGE_S3;
     private final static String DEFAULT_NICKNAME="";
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
                         .nickname(DEFAULT_NICKNAME)//.nickname(socialData.getNickname())
                         .socialPlatform(socialPlatform)
                         .socialId(socialData.getId())
-                        .profileUrl(GHOST_IMAGE_S3)
+                        .profileUrl("")
                         .memberEmail(socialData.getEmail())
                         .socialNickname(socialData.getNickname())
                         .build();

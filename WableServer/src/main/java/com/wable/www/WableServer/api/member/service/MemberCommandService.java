@@ -40,10 +40,9 @@ public class MemberCommandService {
     private final CommentLikedRepository commentLikedRepository;
     private final ContentLikedRepository contentLikedRepository;
     private final S3Service s3Service;
-    private final static String GHOST_IMAGE = "https://github.com/TeamDon-tBe/SERVER/assets/97835512/fb3ea04c-661e-4221-a837-854d66cdb77e";
 
-    @Value("${aws-property.s3-default-image-url}")
-    private String GHOST_IMAGE_S3;
+    @Value("${aws-property.s3-system-image-url}")
+    private String SYSTEM_IMAGE_S3;
 
     @Value("${aws-property.s3-domain}")
     private String S3_URL;
@@ -53,7 +52,7 @@ public class MemberCommandService {
         List<Ghost> ghosts = ghostRepository.findByGhostTargetMember(member);
 
         member.updateNickname("탈퇴한 회원");
-        member.updateProfileUrl(GHOST_IMAGE_S3);
+        member.updateProfileUrl(SYSTEM_IMAGE_S3);
         member.updateDeletedReason(memberWithdrawalPatchRequestDto.deleted_reason());
 
 //        notificationRepository.deleteBynotificationTargetMember(member);
@@ -163,10 +162,9 @@ public class MemberCommandService {
             try {
                 String s3ImageUrl = s3Service.uploadImage(memberId.toString(), multipartFile);
 
-                if(!existedImage.equals(GHOST_IMAGE)&&!existedImage.equals(GHOST_IMAGE_S3)) {
-                    String existedKey = removeBaseUrl(existedImage, S3_URL);
-                    s3Service.deleteImage(existedKey);
-                }
+                String existedKey = removeBaseUrl(existedImage, S3_URL);
+
+                s3Service.deleteImage(existedKey);
 
                 existingMember.updateProfileUrl(s3ImageUrl);
             } catch (IOException e) {
@@ -187,6 +185,9 @@ public class MemberCommandService {
         }
 		if (profilePatchRequestDto.memberLckYears() != null) {
             existingMember.updateMemberLckYears(profilePatchRequestDto.memberLckYears());
+        }
+        if (profilePatchRequestDto.memberDefaultProfileImage() != null) {
+            existingMember.updateProfileUrl(profilePatchRequestDto.memberDefaultProfileImage());
         }
         memberRepository.save(existingMember);
     }
