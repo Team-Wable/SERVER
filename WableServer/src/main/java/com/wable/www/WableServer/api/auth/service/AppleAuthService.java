@@ -69,7 +69,8 @@ public class AppleAuthService {
             String appleId = userInfoObject.get("sub").getAsString();
             String email = userInfoObject.get("email").getAsString();
 
-            return new SocialInfoDto(appleId, userName, null, email);
+//            return new SocialInfoDto(appleId, userName, null, email);
+            return new SocialInfoDto(appleId, userName, email);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new BaseException(HttpStatus.INTERNAL_SERVER_ERROR, "애플 계정 데이터 가공 실패");
         }

@@ -33,12 +33,13 @@ public class KakaoAuthService  {
 
             JsonNode jsonNode = objectMapper.readTree(responseData.getBody());
 
-            String nickname = jsonNode.get("kakao_account").get("profile").get("nickname").asText();
-            String profileUrl = jsonNode.get("kakao_account").get("profile").get("profile_image_url").asText();
+//            String nickname = jsonNode.get("kakao_account").get("profile").get("nickname").asText();
+//            String profileUrl = jsonNode.get("kakao_account").get("profile").get("profile_image_url").asText();
             String kakaoId = jsonNode.get("id").asText();
-            String email = jsonNode.get("kakao_account").get("email").asText();
+//            String email = jsonNode.get("kakao_account").get("email").asText();
 
-            return new SocialInfoDto(kakaoId, nickname, profileUrl,email);
+//            return new SocialInfoDto(kakaoId, nickname, profileUrl,email);
+            return new SocialInfoDto(kakaoId, "신규 유저","신규 유저");
         } catch (JsonProcessingException e) {
             throw new BaseException(HttpStatus.INTERNAL_SERVER_ERROR, "카카오 계정 데이터 가공 실패");
         }
