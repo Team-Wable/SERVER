@@ -21,7 +21,7 @@ import static com.wable.www.WableServer.common.response.SuccessStatus.*;
 @SecurityRequirement(name = "JWT Auth")
 @Tag(name="LCK Game Type 관련",description = "LCK Game Type Api Document")
 public class LckGameTypeController {
-	private LckGameTypeQueryService lckGameTypeQueryService;
+	private final LckGameTypeQueryService lckGameTypeQueryService;
 
 	@GetMapping("v1/information/gametype")
 	@Operation(summary = "Lck Game Type API입니다.", description = "LckGameTypeGet")
