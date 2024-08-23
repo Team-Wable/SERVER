@@ -53,7 +53,8 @@ public class MemberCommandService {
 
         member.updateNickname("탈퇴한 회원");
         member.updateProfileUrl(SYSTEM_IMAGE_S3);
-        member.updateDeletedReason(memberWithdrawalPatchRequestDto.deleted_reason());
+        String combineReason = String.join(",", memberWithdrawalPatchRequestDto.deleted_reason());
+        member.updateDeletedReason(combineReason);
 
 //        notificationRepository.deleteBynotificationTargetMember(member);
 
