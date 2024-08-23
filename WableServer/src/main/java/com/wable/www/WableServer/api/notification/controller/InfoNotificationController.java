@@ -26,12 +26,13 @@ public class InfoNotificationController {
 	private final InfoNotificationQueryService infoNotificationQueryService;
 	private final InfoNotificationCommandService infoNotificationCommandService;
 
-	@GetMapping("notification/info/all")
+	@GetMapping("notification/info")
 	@Operation(summary = "정보 노티 목록 조회 API 입니다.",description = "InfoNotiList")
-	public ResponseEntity<ApiResponse<Object>> getInfoNotification(Principal principal) {
+	public ResponseEntity<ApiResponse<Object>> getInfoNotification(Principal principal,
+																   @RequestParam(value = "cursor", defaultValue = "-1") Long cursor) {
 		Long memberId = MemberUtil.getMemberId(principal);
 		return ApiResponse.success(SuccessStatus.INFO_NOTIFICATION_ALL_SUCCESS,
-				infoNotificationQueryService.getInfoNotification(memberId));
+				infoNotificationQueryService.getInfoNotifications(memberId, cursor));
 	}
 
 	@GetMapping("notification/info/manage/gamedone")

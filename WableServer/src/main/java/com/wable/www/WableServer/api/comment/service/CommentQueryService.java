@@ -111,7 +111,7 @@ public class CommentQueryService {
     public List<CommentAllByMemberResponseDto> getMemberCommentPagination(Long principalId, Long memberId, Long cursor) {
         memberRepository.findMemberByIdOrThrow(memberId);
 
-        PageRequest pageRequest = PageRequest.of(0, COMMENT_DEFAULT_PAGE_SIZE);
+        PageRequest pageRequest = PageRequest.of(0, 10);
         Slice<Comment> commentList;
 
         if (cursor==-1) {
@@ -134,7 +134,7 @@ public class CommentQueryService {
     public List<CommentAllByMemberResponseDtoVer2> getCommentAllByMemberWithImage(Long principalId, Long memberId, Long cursor) {
         memberRepository.findMemberByIdOrThrow(memberId);
 
-        PageRequest pageRequest = PageRequest.of(0, COMMENT_DEFAULT_PAGE_SIZE);
+        PageRequest pageRequest = PageRequest.of(0, 10);
         Slice<Comment> commentList;
 
         if (cursor==-1) {

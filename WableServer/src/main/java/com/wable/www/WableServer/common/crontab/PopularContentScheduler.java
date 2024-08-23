@@ -39,7 +39,7 @@ public class PopularContentScheduler {
         this.fcmService = fcmService;
     }
 
-    @Scheduled(cron = "0 0 4 * * ?")
+    @Scheduled(cron = "0 1 0 * * ?")
     @Transactional
     public void popularContentNotification() {
         LocalDateTime startOfYesterday = LocalDateTime.now().minusDays(1).toLocalDate().atStartOfDay();
