@@ -7,6 +7,8 @@ import com.wable.www.WableServer.api.notification.dto.response.InfoNotificationA
 import com.wable.www.WableServer.api.notification.repository.InfoNotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,14 +20,23 @@ public class InfoNotificationQueryService {
 	@Value("${aws-property.s3-info-image-url}")
 	private String INFO_IMAGE_S3;
 
+	private static final int NOTIFICATION_DEFAULT_PAGE_SIZE = 15;
+
 	private final InfoNotificationRepository infoNotificationRepository;
 	private final MemberRepository memberRepository;
-	public List<InfoNotificationAllResponseDto> getInfoNotification(Long memberId) {
-		Member member = memberRepository.findMemberByIdOrThrow(memberId);
-		List<InfoNotification> infoNotifications =
-				infoNotificationRepository.findAllByInfoNotificationTargetMemberOrderByCreatedAtDesc(member);
 
-		return infoNotifications.stream()
+	public List<InfoNotificationAllResponseDto> getInfoNotifications(Long memberId, Long cursor) {
+		Member member = memberRepository.findMemberByIdOrThrow(memberId);
+		PageRequest pageRequest = PageRequest.of(0, NOTIFICATION_DEFAULT_PAGE_SIZE);
+		Slice<InfoNotification> infoNotificationSlice;
+
+		if (cursor == -1) {
+			infoNotificationSlice = infoNotificationRepository.findTop15ByInfoNotificationTargetMemberOrderByCreatedAtDesc(member, pageRequest);
+		} else {
+			infoNotificationSlice = infoNotificationRepository.findInfoNotificationsNextPage(cursor, memberId, pageRequest);
+		}
+
+		return infoNotificationSlice.stream()
 				.map(infoNotification -> InfoNotificationAllResponseDto.of(
 						infoNotification,
 						INFO_IMAGE_S3

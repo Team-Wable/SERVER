@@ -92,7 +92,7 @@ public class ContentQueryService {
     }
 
     public List<ContentGetAllResponseDtoVer2> getContentAllPagination(Long memberId, Long cursor) {
-        PageRequest pageRequest = PageRequest.of(0, 30);
+        PageRequest pageRequest = PageRequest.of(0, 20);
         Member usingMember = memberRepository.findMemberByIdOrThrow(memberId);
         Slice<Content> contentList;
 
@@ -116,7 +116,7 @@ public class ContentQueryService {
     }
 
     public List<ContentGetAllResponseDtoVer3> getContentAllWithImage(Long memberId, Long cursor) {
-        PageRequest pageRequest = PageRequest.of(0, 30);
+        PageRequest pageRequest = PageRequest.of(0, 20);
         Member usingMember = memberRepository.findMemberByIdOrThrow(memberId);
         Slice<Content> contentList;
 
@@ -159,7 +159,7 @@ public class ContentQueryService {
         Member usingMember = memberRepository.findMemberByIdOrThrow(memberId);
         Member targetMember = memberRepository.findMemberByIdOrThrow(targetMemberId);
 
-        PageRequest pageRequest = PageRequest.of(0, 20);
+        PageRequest pageRequest = PageRequest.of(0, 15);
 
         Slice<Content> contentList;
 
@@ -186,7 +186,7 @@ public class ContentQueryService {
         Member usingMember = memberRepository.findMemberByIdOrThrow(memberId);
         Member targetMember = memberRepository.findMemberByIdOrThrow(targetMemberId);
 
-        PageRequest pageRequest = PageRequest.of(0, 20);
+        PageRequest pageRequest = PageRequest.of(0, 15);
 
         Slice<Content> contentList;
 
