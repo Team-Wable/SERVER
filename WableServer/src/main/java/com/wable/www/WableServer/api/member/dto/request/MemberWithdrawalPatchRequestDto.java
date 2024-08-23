@@ -1,6 +1,8 @@
 package com.wable.www.WableServer.api.member.dto.request;
 
+import java.util.List;
+
 public record MemberWithdrawalPatchRequestDto(
-        String deleted_reason
+        List<String> deleted_reason
 ) {
 }
