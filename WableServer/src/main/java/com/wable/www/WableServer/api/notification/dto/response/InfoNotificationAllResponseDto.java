@@ -4,7 +4,7 @@ import com.wable.www.WableServer.api.notification.domain.InfoNotification;
 import com.wable.www.WableServer.common.util.TimeUtilCustom;
 
 public record InfoNotificationAllResponseDto(
-		String InfoNotificationType,
+		String infoNotificationType,
 		String time,
 		String imageUrl
 ) {
