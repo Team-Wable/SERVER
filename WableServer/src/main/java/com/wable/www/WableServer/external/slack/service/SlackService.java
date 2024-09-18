@@ -24,7 +24,7 @@ public class SlackService {
     String slackToken;
 
     public void sendSlackMessage(Long totalMember, String channel) {
-        String message = totalMember.toString() + "번째 예스비가 새롭게 탄생했어요.";
+        String message = totalMember.toString() + "번째 와블 회원이 탄생했어요.";
         try {
             MethodsClient methods = Slack.getInstance().methods(slackToken);
 
