@@ -19,19 +19,17 @@ import com.wable.www.WableServer.external.slack.service.SlackService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-
-//    @Value("${aws-property.s3-default-image-url}")
-//    private String GHOST_IMAGE_S3;
     private final static String DEFAULT_NICKNAME="";
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -39,6 +37,7 @@ public class AuthServiceImpl implements AuthService {
     private final AppleAuthService appleAuthService;
     private final MemberRepository memberRepository;
     private final SlackService slackService;
+    private final Environment environment;
 
     @Override
     @Transactional
@@ -61,10 +60,11 @@ public class AuthServiceImpl implements AuthService {
                         .memberEmail(socialData.getEmail())
                         .socialNickname(socialData.getNickname())
                         .build();
-
                 memberRepository.save(member);
 
-                slackService.sendSlackMessage(memberRepository.count(), "#wable-signup");
+                if (Objects.equals(environment.getProperty("spring.config.activate.on-profile"), "prod")){
+                    slackService.sendSlackMessage(memberRepository.count(), "#wable-signup");
+                }
 
                 Authentication authentication = new UserAuthentication(member.getId(), null, null);
 
