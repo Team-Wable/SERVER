@@ -1,6 +1,5 @@
 package com.wable.www.WableServer.api;
 
-import com.wable.www.WableServer.common.exception.UnAuthorizedException;
 import com.wable.www.WableServer.common.response.ApiResponse;
 import com.wable.www.WableServer.common.response.ErrorStatus;
 import com.wable.www.WableServer.common.util.MemberUtil;

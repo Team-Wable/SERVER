@@ -1,7 +1,6 @@
 package com.wable.www.WableServer.api.lck.service;
 
 import com.wable.www.WableServer.api.lck.domain.LckSchedule;
-import com.wable.www.WableServer.api.lck.dto.reponse.LckRankingGetDto;
 import com.wable.www.WableServer.api.lck.dto.reponse.LckScheduleByDateDto;
 import com.wable.www.WableServer.api.lck.dto.reponse.LckScheduleGetDto;
 import com.wable.www.WableServer.api.lck.repository.LckScheduleRepository;
@@ -16,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,9 +35,8 @@ public class LckScheduleQueryService {
 				.collect(Collectors.groupingBy(dto -> {
 					LocalDateTime gameDateTime = LocalDateTime.parse(dto.gameDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 					return TimeUtilCustom.refineDateOnly(gameDateTime);
-				}));
+				}, TreeMap::new, Collectors.toList()));
 
-		// 날짜별로 그룹화된 데이터를 LckScheduleByDateDto로 변환
 		return groupedByDate.entrySet().stream()
 				.map(entry -> LckScheduleByDateDto.of(entry.getKey(), entry.getValue()))
 				.collect(Collectors.toList());
