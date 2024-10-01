@@ -55,7 +55,7 @@ public class CommentCommendService {
         //답글 작성 시 게시물 작상자에게 알림 발생
         Member contentWritingMember = memberRepository.findMemberByIdOrThrow(content.getMember().getId());
 
-        if(usingMember != contentWritingMember){  ////자신 게시물에 대한 좋아요 누르면 알림 발생 x
+        if(usingMember != contentWritingMember) {  ////자신 게시물에 대한 좋아요 누르면 알림 발생 x
             //노티 엔티티와 연결
             Notification notification = Notification.builder()
                     .notificationTargetMember(contentWritingMember)
@@ -66,29 +66,29 @@ public class CommentCommendService {
                     .notificationText(comment.getCommentText())
                     .build();
             Notification savedNotification = notificationRepository.save(notification);
-        }
 
-        if (Boolean.TRUE.equals(contentWritingMember.getIsPushAlarmAllowed())) {
-            String FcmMessageTitle = usingMember.getNickname() + "님이 답글을 작성했습니다.";
-            contentWritingMember.increaseFcmBadge();
-            FcmMessageDto commentFcmMessage = FcmMessageDto.builder()
-                    .validateOnly(false)
-                    .message(FcmMessageDto.Message.builder()
-                            .notificationDetails(FcmMessageDto.NotificationDetails.builder()
-                                    .title(FcmMessageTitle)
-                                    .body(commentPostRequestDto.commentText())
-                                    .build())
-                            .token(contentWritingMember.getFcmToken())
-                            .data(FcmMessageDto.Data.builder()
-                                    .name("comment")
-                                    .description("답글 푸시 알림")
-                                    .relateContentId(String.valueOf(contentId))
-                                    .build())
-                            .badge(contentWritingMember.getFcmBadge())
-                            .build())
-                    .build();
+            if (Boolean.TRUE.equals(contentWritingMember.getIsPushAlarmAllowed())) {
+                String FcmMessageTitle = usingMember.getNickname() + "님이 답글을 작성했습니다.";
+                contentWritingMember.increaseFcmBadge();
+                FcmMessageDto commentFcmMessage = FcmMessageDto.builder()
+                        .validateOnly(false)
+                        .message(FcmMessageDto.Message.builder()
+                                .notificationDetails(FcmMessageDto.NotificationDetails.builder()
+                                        .title(FcmMessageTitle)
+                                        .body(commentPostRequestDto.commentText())
+                                        .build())
+                                .token(contentWritingMember.getFcmToken())
+                                .data(FcmMessageDto.Data.builder()
+                                        .name("comment")
+                                        .description("답글 푸시 알림")
+                                        .relateContentId(String.valueOf(contentId))
+                                        .build())
+                                .badge(contentWritingMember.getFcmBadge())
+                                .build())
+                        .build();
 
-            fcmService.sendMessage(commentFcmMessage);
+                fcmService.sendMessage(commentFcmMessage);
+            }
         }
     }
 
@@ -131,7 +131,6 @@ public class CommentCommendService {
                     .notificationText(comment.getCommentText())
                     .build();
             Notification savedNotification = notificationRepository.save(notification);
-
 
             if (Boolean.TRUE.equals(contentWritingMember.getIsPushAlarmAllowed())) {
                 String FcmMessageTitle = usingMember.getNickname() + "님이 답글을 작성했습니다.";
