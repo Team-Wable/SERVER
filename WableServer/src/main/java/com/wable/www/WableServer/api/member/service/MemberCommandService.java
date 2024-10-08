@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -162,10 +163,10 @@ public class MemberCommandService {
 
             try {
                 String s3ImageUrl = s3Service.uploadImage(memberId.toString(), multipartFile);
-                if (!"BLUE".equals(existedImage) && !"PURPLE".equals(existedImage) && !"GREEN".equals(existedImage)) {
+                Set<String> allowedColors = Set.of("BLUE", "PURPLE", "GREEN");
 
+                if (!existedImage.isEmpty() && !allowedColors.contains(existedImage)) {
                     String existedKey = removeBaseUrl(existedImage, S3_URL);
-
                     s3Service.deleteImage(existedKey);
                 }
                 existingMember.updateProfileUrl(s3ImageUrl);
