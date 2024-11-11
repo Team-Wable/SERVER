@@ -83,7 +83,7 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_lck_years")
     private int memberLckYears;
 
-    @Column(name = "member_exp", columnDefinition = "INTEGER DEFAULT 0")
+    @Column(name = "member_exp", columnDefinition = "DOUBLE DEFAULT 0")
     private double memberExp;
 
     @OneToMany(mappedBy = "notificationTargetMember",cascade = ALL)
@@ -161,9 +161,9 @@ public class Member extends BaseTimeEntity {
 
     public void updateMemberLckYears(int memberLckYears) { this.memberLckYears = memberLckYears;}
 
-    public void increaseExpPostContent() { this.memberExp += 0.6;}
+    public void increaseExpPostContent() { this.memberExp += 3.0;}
 
-    public void increaseExpPostComment() { this.memberExp += 3.0;}
+    public void increaseExpPostComment() { this.memberExp += 1.0;}
 
-    public void increaseExpPostLike() { this.memberExp += 1.0;}
+    public void increaseExpPostLike() { this.memberExp += 0.6;}
 }
