@@ -57,6 +57,7 @@ public enum SuccessStatus {
     POST_GAMEDONE_INFONOTIFICATION_SUCCESS(HttpStatus.CREATED,"게임 종료 정보 노티 생성 완료"),
     POST_GAMESTART_INFONOTIFICATION_SUCCESS(HttpStatus.CREATED,"게임 시작 정보 노티 생성 완료"),
     POST_WEEKDONE_INFONOTIFICATION_SUCCESS(HttpStatus.CREATED,"한 주 종료 정보 노티 생성 완료"),
+    NEWS_ALL_SUCCESS(HttpStatus.OK, "뉴스 목록 조회 성공"),
 
     /**
      * report
