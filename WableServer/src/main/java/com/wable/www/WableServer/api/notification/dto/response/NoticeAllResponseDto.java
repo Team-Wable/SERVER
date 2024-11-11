@@ -10,8 +10,8 @@ public record NoticeAllResponseDto(
 		String noticeImage,
 		String time
 ) {
-	public static NewsAllResponseDto of(Notice notice) {
-		return new NewsAllResponseDto(
+	public static NoticeAllResponseDto of(Notice notice) {
+		return new NoticeAllResponseDto(
 				notice.getId(),
 				notice.getNoticeTitle(),
 				notice.getNoticeText(),
