@@ -59,7 +59,7 @@ public enum SuccessStatus {
     POST_WEEKDONE_INFONOTIFICATION_SUCCESS(HttpStatus.CREATED,"한 주 종료 정보 노티 생성 완료"),
     NEWS_ALL_SUCCESS(HttpStatus.OK, "뉴스 목록 조회 성공"),
     NOTICE_ALL_SUCCESS(HttpStatus.OK, "공지사항 목록 조회 성공"),
-
+    NEWS_NOTICE_NUMBER_SUCCESS(HttpStatus.OK, "뉴스, 공지사항 개수 조회 성공"),
     /**
      * report
      */

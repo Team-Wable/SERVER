@@ -1,6 +1,7 @@
 package com.wable.www.WableServer.api.notification.controller;
 
 import com.wable.www.WableServer.api.comment.dto.request.CommentPostRequestDto;
+import com.wable.www.WableServer.api.notification.dto.response.NewsNoticeCountResponseDto;
 import com.wable.www.WableServer.api.notification.service.InfoNotificationCommandService;
 import com.wable.www.WableServer.api.notification.service.InfoNotificationQueryService;
 import com.wable.www.WableServer.common.response.ApiResponse;
@@ -55,4 +56,11 @@ public class InfoNotificationController {
 		infoNotificationCommandService.postWeekDoneInfoNotification();
 		return ApiResponse.success(POST_WEEKDONE_INFONOTIFICATION_SUCCESS);
 	}
+
+	@GetMapping("information/number")
+	@Operation(summary = "뉴스와 공지사항 개수 반환 API", description = "NewsNoticeNumber")
+	public ResponseEntity<ApiResponse<NewsNoticeCountResponseDto>> getNewsNoticeNumber() {
+		return ApiResponse.success(NEWS_NOTICE_NUMBER_SUCCESS, infoNotificationQueryService.getNewsNoticeNumber());
+	}
+
 }

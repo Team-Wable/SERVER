@@ -4,7 +4,10 @@ import com.wable.www.WableServer.api.member.domain.Member;
 import com.wable.www.WableServer.api.member.repository.MemberRepository;
 import com.wable.www.WableServer.api.notification.domain.InfoNotification;
 import com.wable.www.WableServer.api.notification.dto.response.InfoNotificationAllResponseDto;
+import com.wable.www.WableServer.api.notification.dto.response.NewsNoticeCountResponseDto;
 import com.wable.www.WableServer.api.notification.repository.InfoNotificationRepository;
+import com.wable.www.WableServer.api.notification.repository.NewsRepository;
+import com.wable.www.WableServer.api.notification.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +27,8 @@ public class InfoNotificationQueryService {
 
 	private final InfoNotificationRepository infoNotificationRepository;
 	private final MemberRepository memberRepository;
+	private final NewsRepository newsRepository;
+	private final NoticeRepository noticeRepository;
 
 	public List<InfoNotificationAllResponseDto> getInfoNotifications(Long memberId, Long cursor) {
 		Member member = memberRepository.findMemberByIdOrThrow(memberId);
@@ -43,4 +48,10 @@ public class InfoNotificationQueryService {
 				)).collect(Collectors.toList());
 	}
 
+	public NewsNoticeCountResponseDto getNewsNoticeNumber() {
+		int newsNumber = (int) newsRepository.count();
+		int noticeNumber = (int) noticeRepository.count();
+
+		return NewsNoticeCountResponseDto.of(newsNumber, noticeNumber);
+	}
 }
