@@ -10,6 +10,7 @@ import com.wable.www.WableServer.api.auth.service.AuthService;
 import com.wable.www.WableServer.api.auth.service.KakaoAuthService;
 import com.wable.www.WableServer.api.member.domain.Member;
 import com.wable.www.WableServer.api.member.repository.MemberRepository;
+import com.wable.www.WableServer.common.config.jwt.AdminConfig;
 import com.wable.www.WableServer.common.exception.BadRequestException;
 import com.wable.www.WableServer.common.response.ErrorStatus;
 import com.wable.www.WableServer.common.config.jwt.JwtTokenProvider;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -38,6 +40,7 @@ public class AuthServiceImpl implements AuthService {
     private final MemberRepository memberRepository;
     private final SlackService slackService;
     private final Environment environment;
+    private final AdminConfig adminConfig;
 
     @Override
     @Transactional
@@ -73,9 +76,11 @@ public class AuthServiceImpl implements AuthService {
 
                 int memberLevel = MemberUtil.refineMemberExpToLevel(member.getMemberExp());
 
+                boolean isAdmin = isAdmin(member.getId());
+
                 return AuthResponseDto.of(member.getNickname(), member.getId(), accessToken, refreshToken, member.getProfileUrl(),
                         true, member.getIsPushAlarmAllowed(), member.getMemberFanTeam(), member.getMemberLckYears(),
-                        memberLevel);
+                        memberLevel, isAdmin);
 
             }
             else {
@@ -98,9 +103,11 @@ public class AuthServiceImpl implements AuthService {
 
                 int signedMemberLevel = MemberUtil.refineMemberExpToLevel(signedMember.getMemberExp());
 
+                boolean isAdmin = isAdmin(signedMember.getId());
+
                 return AuthResponseDto.of(signedMember.getNickname(), signedMember.getId(), accessToken,
                         refreshToken, signedMember.getProfileUrl(), false, signedMember.getIsPushAlarmAllowed(),
-                        signedMember.getMemberFanTeam(), signedMember.getMemberLckYears(), signedMemberLevel);
+                        signedMember.getMemberFanTeam(), signedMember.getMemberLckYears(), signedMemberLevel, isAdmin);
             }
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException(ErrorStatus.ANOTHER_ACCESS_TOKEN.getMessage());
@@ -134,5 +141,10 @@ public class AuthServiceImpl implements AuthService {
             default:
                 throw new IllegalArgumentException(ErrorStatus.ANOTHER_ACCESS_TOKEN.getMessage());
         }
+    }
+
+    private boolean isAdmin(Long memberId) {
+        List<Long> allowedIds = adminConfig.getAllowedIds();
+        return allowedIds.contains(memberId);
     }
 }
