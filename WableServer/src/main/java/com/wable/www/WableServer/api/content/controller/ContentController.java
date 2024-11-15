@@ -110,6 +110,13 @@ public class ContentController {
         return ApiResponse.success(GET_CONTENT_ALL_SUCCESS, contentQueryService.getContentAllWithImage(memberId, cursor));
     }
 
+    @GetMapping("v3/contents")
+    @Operation(summary = "게시글 전체 조회 API(+Blind) 입니다.",description = "Contents Get with Blind")
+    public ResponseEntity<ApiResponse<List<ContentGetAllResponseDtoVer4>>> getContentAllWithBlind(Principal principal, @RequestParam(value = "cursor") Long cursor) {
+        Long memberId = MemberUtil.getMemberId(principal);
+        return ApiResponse.success(GET_CONTENT_ALL_SUCCESS, contentQueryService.getContentAllWithBlind(memberId, cursor));
+    }
+
     @GetMapping("v1/member/{memberId}/member-contents")
     @Operation(summary = "페이지네이션이 적용된 멤버에 해당하는 게시글 리스트 조회 API 입니다.",description = "ContentByMemberPagination")
     public ResponseEntity<ApiResponse<List<ContentGetAllByMemberResponseDto>>> getContentAllByMemberPagination(Principal principal,
@@ -126,9 +133,23 @@ public class ContentController {
         return ApiResponse.success(GET_MEMBER_CONTENT_SUCCESS, contentQueryService.getContentAllByMemberWithImage(memberId, targetMemberId, cursor));
     }
 
+    @GetMapping("v3/member/{memberId}/contents")
+    @Operation(summary = "멤버에 해당하는 게시글 리스트 조회 API(+Blind) 입니다.",description = "Contents By Member with Blind")
+    public ResponseEntity<ApiResponse<List<ContentGetAllByMemberResponseDtoVer3>>> getContentAllByMemberWithBlind(Principal principal,
+                                                                                                                  @PathVariable("memberId") Long targetMemberId,  @RequestParam(value = "cursor") Long cursor) {
+        Long memberId = MemberUtil.getMemberId(principal);
+        return ApiResponse.success(GET_MEMBER_CONTENT_SUCCESS, contentQueryService.getContentAllByMemberWithBlind(memberId, targetMemberId, cursor));
+    }
+
     @GetMapping("v2/content/{contentId}")
     @Operation(summary = "게시글 상세 조회 API 입니다.",description = "Content Get Detail")
     public ResponseEntity<ApiResponse<ContentGetDetailsResponseDtoVer3>> getContentDetailWithImage(Principal principal, @PathVariable("contentId") Long contentId) {
         return ApiResponse.success(GET_CONTENT_DETAIL_SUCCESS, contentQueryService.getContentDetailWithImage(MemberUtil.getMemberId(principal), contentId));
+    }
+
+    @GetMapping("v3/content/{contentId}")
+    @Operation(summary = "게시글 상세 조회 API 입니다(+Blind)",description = "Content Get Detail with Blind")
+    public ResponseEntity<ApiResponse<ContentGetDetailsResponseDtoVer4>> getContentDetailWithBlind(Principal principal, @PathVariable("contentId") Long contentId) {
+        return ApiResponse.success(GET_CONTENT_DETAIL_SUCCESS, contentQueryService.getContentDetailWithBlind(MemberUtil.getMemberId(principal), contentId));
     }
 }

@@ -208,4 +208,70 @@ public class ContentQueryService {
                         commentRepository.countByContent(oneContent)))
                 .collect(Collectors.toList());
     }
+
+    public List<ContentGetAllResponseDtoVer4> getContentAllWithBlind(Long memberId, Long cursor) {
+        PageRequest pageRequest = PageRequest.of(0, 20);
+        Member usingMember = memberRepository.findMemberByIdOrThrow(memberId);
+        Slice<Content> contentList;
+
+        if (cursor==-1) {
+            contentList = contentRepository.findTop30ByOrderByCreatedAtDesc(pageRequest);
+        } else {
+            contentList = contentRepository.findContentsNextPage(cursor, pageRequest);
+        }
+
+        return contentList.stream()
+                .map(oneContent -> ContentGetAllResponseDtoVer4.of(
+                        oneContent.getMember(),
+                        oneContent,
+                        ghostRepository.existsByGhostTargetMemberAndGhostTriggerMember(oneContent.getMember(),usingMember),
+                        GhostUtil.refineGhost(oneContent.getMember().getMemberGhost()),
+                        contentLikedRepository.existsByContentAndMember(oneContent,usingMember),
+                        TimeUtilCustom.refineTime(oneContent.getCreatedAt()),
+                        contentLikedRepository.countByContent(oneContent),
+                        commentRepository.countByContent(oneContent)))
+                .collect(Collectors.toList());
+    }
+
+    public List<ContentGetAllByMemberResponseDtoVer3> getContentAllByMemberWithBlind(Long memberId, Long targetMemberId, Long cursor) {
+        Member usingMember = memberRepository.findMemberByIdOrThrow(memberId);
+        Member targetMember = memberRepository.findMemberByIdOrThrow(targetMemberId);
+
+        PageRequest pageRequest = PageRequest.of(0, 15);
+
+        Slice<Content> contentList;
+
+        if (cursor==-1) {
+            contentList = contentRepository.findContestsTop20ByMemberIdOrderByCreatedAtDesc(targetMemberId, pageRequest);
+        } else {
+            contentList = contentRepository.findContentsByMemberNextPage(cursor, targetMemberId ,pageRequest);
+        }
+
+        return contentList.stream()
+                .map(oneContent -> ContentGetAllByMemberResponseDtoVer3.of(
+                        targetMember,
+                        GhostUtil.refineGhost(oneContent.getMember().getMemberGhost()),
+                        oneContent,
+                        ghostRepository.existsByGhostTargetMemberAndGhostTriggerMember(targetMember,usingMember),
+                        contentLikedRepository.existsByContentAndMember(oneContent,usingMember),
+                        TimeUtilCustom.refineTime(oneContent.getCreatedAt()),
+                        contentLikedRepository.countByContent(oneContent),
+                        commentRepository.countByContent(oneContent)))
+                .collect(Collectors.toList());
+    }
+
+    public ContentGetDetailsResponseDtoVer4 getContentDetailWithBlind(Long memberId, Long contentId) {
+        Member member = memberRepository.findMemberByIdOrThrow(memberId);
+        Content content = contentRepository.findContentByIdOrThrow(contentId);
+        Member writerMember = memberRepository.findMemberByIdOrThrow(content.getMember().getId());
+        int writerMemberGhost = GhostUtil.refineGhost(writerMember.getMemberGhost());
+        Long writerMemberId = content.getMember().getId();
+        boolean isGhost = ghostRepository.existsByGhostTargetMemberIdAndGhostTriggerMemberId(writerMemberId, memberId);
+        boolean isLiked = contentLikedRepository.existsByContentAndMember(content,member);
+        String time = TimeUtilCustom.refineTime(content.getCreatedAt());
+        int likedNumber = contentLikedRepository.countByContent(content);
+        int commentNumber = commentRepository.countByContent(content);
+
+        return ContentGetDetailsResponseDtoVer4.of(writerMember, writerMemberGhost, content, isGhost, isLiked, time, likedNumber, commentNumber);
+    }
 }

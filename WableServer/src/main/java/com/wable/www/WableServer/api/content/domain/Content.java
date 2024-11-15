@@ -52,6 +52,9 @@ public class Content extends BaseTimeEntity {
 
     private LocalDateTime deleteAt;
 
+    @Column(name = "is_blind", columnDefinition = "BOOLEAN DEFAULT false")
+    private boolean isBlind;
+
     public void setContentImage(String contentImageUrl) {
         this.contentImage = contentImageUrl ;}
 
