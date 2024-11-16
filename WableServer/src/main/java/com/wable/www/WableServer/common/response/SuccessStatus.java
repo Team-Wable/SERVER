@@ -64,6 +64,7 @@ public enum SuccessStatus {
      * report
      */
     REPORT_SLACK_ALARM_SUCCESS(HttpStatus.CREATED, "신고 관련 슬랙 알림 발생 성공"),
+    BAN_MEMBER_SUCCESS(HttpStatus.CREATED, "블라인드 처리 및 밴처리 성공"),
     /**
      * Lck Game
      */

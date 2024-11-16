@@ -98,6 +98,9 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "reportTargetMember", cascade = ALL)
     private List<Report> targetReport = new ArrayList<>();
 
+    @Column(name = "member_ban_count", columnDefinition = "INT DEFAULT 0")
+    private int memberBanCount;
+
     @Builder
     private Member(String nickname, SocialPlatform socialPlatform, String socialId, String profileUrl, String memberEmail, String socialNickname) {
         this.nickname = nickname;
@@ -112,6 +115,7 @@ public class Member extends BaseTimeEntity {
         this.memberFanTeam = "";
         this.memberLckYears = 0;
         this.memberExp = 0;
+        this.memberBanCount = 0;
     }
 
     public void decreaseGhost() {
@@ -166,4 +170,6 @@ public class Member extends BaseTimeEntity {
     public void increaseExpPostComment() { this.memberExp += 1.0;}
 
     public void increaseExpPostLike() { this.memberExp += 0.6;}
+
+    public void banMember() {this.memberBanCount += 1;}
 }
