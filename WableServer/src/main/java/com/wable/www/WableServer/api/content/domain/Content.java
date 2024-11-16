@@ -70,4 +70,8 @@ public class Content extends BaseTimeEntity {
         this.isDeleted = true;
         this.deleteAt = LocalDateTime.now().plusDays(CONTENT_RETENTION_PERIOD);
     }
+
+    public void blindContent() {
+        this.isBlind = true;
+    }
 }

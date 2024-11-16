@@ -46,6 +46,9 @@ public class Comment extends BaseTimeEntity {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
     private List<CommentLiked> commentLikeds = new ArrayList<>();
 
+    @Column(name = "is_blind", columnDefinition = "BOOLEAN DEFAULT false")
+    private boolean isBlind;
+
     @Builder
     public Comment(Member member, Content content, String commentText) {
         this.member = member;
@@ -59,5 +62,9 @@ public class Comment extends BaseTimeEntity {
     public void softDelete() {
         this.isDeleted = true;
         this.deleteAt = LocalDateTime.now().plusDays(COMMENT_RETENTION_PERIOD);
+    }
+
+    public void blindComment() {
+        this.isBlind = true;
     }
 }
