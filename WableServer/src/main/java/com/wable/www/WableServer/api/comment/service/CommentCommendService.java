@@ -199,40 +199,75 @@ public class CommentCommendService {
                 .build();
         CommentLiked savedCommentLiked = commentLikedRepository.save(commentLiked);
 
-        if(triggerMember != targetMember) {  ////자신 게시물에 대한 좋아요 누르면 알림 발생 x
-            //노티 엔티티와 연결
-            Notification notification = Notification.builder()
-                    .notificationTargetMember(targetMember)
-                    .notificationTriggerMemberId(triggerMember.getId())
-                    .notificationTriggerType(commentLikedRequestDto.notificationTriggerType())
-                    .notificationTriggerId(commentId)   //에러수정을 위한 notificationTriggerId에 답글id 저장, 알림 조회시 답글id로 게시글id 반환하도록하기
-                    .isNotificationChecked(false)
-                    .notificationText(comment.getCommentText())
-                    .build();
-            Notification savedNotification = notificationRepository.save(notification);
-
-
-            if (Boolean.TRUE.equals(targetMember.getIsPushAlarmAllowed())) {
-                String FcmMessageTitle = triggerMember.getNickname() + "님이 " + targetMember.getNickname() + "님의 답글을 좋아합니다.";
-                targetMember.increaseFcmBadge();
-                FcmMessageDto commentLikeFcmMessage = FcmMessageDto.builder()
-                        .validateOnly(false)
-                        .message(FcmMessageDto.Message.builder()
-                                .notificationDetails(FcmMessageDto.NotificationDetails.builder()
-                                        .title(FcmMessageTitle)
-                                        .body("")
-                                        .build())
-                                .token(targetMember.getFcmToken())
-                                .data(FcmMessageDto.Data.builder()
-                                        .name("commentLike")
-                                        .description("답글 좋아요 푸시 알림")
-                                        .relateContentId(String.valueOf(contentId))
-                                        .build())
-                                .badge(targetMember.getFcmBadge())
-                                .build())
+        if(triggerMember != targetMember) {
+            if(comment.getParentCommentId().equals(-1L)) {
+                Notification notification = Notification.builder()
+                        .notificationTargetMember(targetMember)
+                        .notificationTriggerMemberId(triggerMember.getId())
+                        .notificationTriggerType(commentLikedRequestDto.notificationTriggerType())
+                        .notificationTriggerId(commentId)   //에러수정을 위한 notificationTriggerId에 답글id 저장, 알림 조회시 답글id로 게시글id 반환하도록하기
+                        .isNotificationChecked(false)
+                        .notificationText(comment.getCommentText())
                         .build();
+                Notification savedNotification = notificationRepository.save(notification);
 
-                fcmService.sendMessage(commentLikeFcmMessage);
+
+                if (Boolean.TRUE.equals(targetMember.getIsPushAlarmAllowed())) {
+                    String FcmMessageTitle = triggerMember.getNickname() + "님이 " + targetMember.getNickname() + "님의 댓글을 좋아합니다.";
+                    targetMember.increaseFcmBadge();
+                    FcmMessageDto commentLikeFcmMessage = FcmMessageDto.builder()
+                            .validateOnly(false)
+                            .message(FcmMessageDto.Message.builder()
+                                    .notificationDetails(FcmMessageDto.NotificationDetails.builder()
+                                            .title(FcmMessageTitle)
+                                            .body("")
+                                            .build())
+                                    .token(targetMember.getFcmToken())
+                                    .data(FcmMessageDto.Data.builder()
+                                            .name("commentLike")
+                                            .description("댓글 좋아요 푸시 알림")
+                                            .relateContentId(String.valueOf(contentId))
+                                            .build())
+                                    .badge(targetMember.getFcmBadge())
+                                    .build())
+                            .build();
+
+                    fcmService.sendMessage(commentLikeFcmMessage);
+                }
+            } else {
+                Notification notification = Notification.builder()
+                        .notificationTargetMember(targetMember)
+                        .notificationTriggerMemberId(triggerMember.getId())
+                        .notificationTriggerType("childCommentLiked")
+                        .notificationTriggerId(commentId)
+                        .isNotificationChecked(false)
+                        .notificationText(comment.getCommentText())
+                        .build();
+                Notification savedNotification = notificationRepository.save(notification);
+
+
+                if (Boolean.TRUE.equals(targetMember.getIsPushAlarmAllowed())) {
+                    String FcmMessageTitle = triggerMember.getNickname() + "님이 " + targetMember.getNickname() + "님의 답글을 좋아합니다.";
+                    targetMember.increaseFcmBadge();
+                    FcmMessageDto commentLikeFcmMessage = FcmMessageDto.builder()
+                            .validateOnly(false)
+                            .message(FcmMessageDto.Message.builder()
+                                    .notificationDetails(FcmMessageDto.NotificationDetails.builder()
+                                            .title(FcmMessageTitle)
+                                            .body("")
+                                            .build())
+                                    .token(targetMember.getFcmToken())
+                                    .data(FcmMessageDto.Data.builder()
+                                            .name("childCommentLike")
+                                            .description("답글 좋아요 푸시 알림")
+                                            .relateContentId(String.valueOf(contentId))
+                                            .build())
+                                    .badge(targetMember.getFcmBadge())
+                                    .build())
+                            .build();
+
+                    fcmService.sendMessage(commentLikeFcmMessage);
+                }
             }
         }
     }
