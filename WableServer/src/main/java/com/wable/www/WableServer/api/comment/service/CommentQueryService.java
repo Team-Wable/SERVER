@@ -1,11 +1,7 @@
 package com.wable.www.WableServer.api.comment.service;
 
 import com.wable.www.WableServer.api.comment.domain.Comment;
-import com.wable.www.WableServer.api.comment.dto.response.CommentAllByMemberResponseDto;
-import com.wable.www.WableServer.api.comment.dto.response.CommentAllByMemberResponseDtoVer2;
-import com.wable.www.WableServer.api.comment.dto.response.CommentAllResponseDto;
-import com.wable.www.WableServer.api.comment.dto.response.CommentAllResponseDtoVer2;
-import com.wable.www.WableServer.api.comment.dto.response.CommentAllResponseDtoVer3;
+import com.wable.www.WableServer.api.comment.dto.response.*;
 import com.wable.www.WableServer.api.comment.repository.CommentLikedRepository;
 import com.wable.www.WableServer.api.comment.repository.CommentRepository;
 import com.wable.www.WableServer.api.content.repository.ContentRepository;
@@ -145,6 +141,29 @@ public class CommentQueryService {
 
         return commentList.stream()
                 .map(oneComment -> CommentAllByMemberResponseDtoVer2.of(
+                        memberRepository.findMemberByIdOrThrow(memberId),
+                        checkLikedComment(principalId, oneComment.getId()),
+                        checkGhost(principalId, oneComment.getId()),
+                        checkMemberGhost(oneComment.getId()),
+                        likedNumber(oneComment.getId()),
+                        oneComment)
+                ).collect(Collectors.toList());
+    }
+
+    public List<CommentAllByMemberResponseDtoVer3> getCommentAllByMemberWithBlind(Long principalId, Long memberId, Long cursor) {
+        memberRepository.findMemberByIdOrThrow(memberId);
+
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        Slice<Comment> commentList;
+
+        if (cursor==-1) {
+            commentList = commentRepository.findCommentsTop15ByMemberIdOrderByCreatedAtDesc(memberId, pageRequest);
+        } else {
+            commentList = commentRepository.findCommentsByMemberNextPage(cursor, memberId, pageRequest);
+        }
+
+        return commentList.stream()
+                .map(oneComment -> CommentAllByMemberResponseDtoVer3.of(
                         memberRepository.findMemberByIdOrThrow(memberId),
                         checkLikedComment(principalId, oneComment.getId()),
                         checkGhost(principalId, oneComment.getId()),
