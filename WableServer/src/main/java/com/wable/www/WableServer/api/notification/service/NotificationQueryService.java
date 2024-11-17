@@ -126,7 +126,8 @@ public class NotificationQueryService {
     }
     //todo 추후에 인기글 -> 불꽃, 정보 -> 확성기, 시스템 -> wable로고, 사용자 -> 프로필 사진
     private String profileUrl(Long notificationId, String triggerType){
-        if(triggerType.equals("comment") || triggerType.equals("commentLiked") || triggerType.equals("contentLiked")){
+        if(triggerType.equals("comment") || triggerType.equals("commentLiked") || triggerType.equals("contentLiked")
+                || triggerType.equals("childCommentLiked") || triggerType.equals("childComment")){
             Notification notification = notificationRepository.findNotificationById(notificationId);
             Member triggerMember = memberRepository.findMemberByIdOrThrow(notification.getNotificationTriggerMemberId());
             return triggerMember.getProfileUrl();
