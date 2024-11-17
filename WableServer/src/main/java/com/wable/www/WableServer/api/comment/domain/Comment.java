@@ -49,11 +49,16 @@ public class Comment extends BaseTimeEntity {
     @Column(name = "is_blind", columnDefinition = "BOOLEAN DEFAULT false")
     private boolean isBlind;
 
+    @Column(name = "parent_comment_id", columnDefinition = "BIGINT DEFAULT -1")
+    private Long parentCommentId;
+
     @Builder
-    public Comment(Member member, Content content, String commentText) {
+    public Comment(Member member, Content content, String commentText, Long parentCommentId) {
         this.member = member;
         this.content = content;
         this.commentText = commentText;
+        this.parentCommentId = parentCommentId;
+        this.isBlind = false;
     }
     public void setCommentImage(String commentImageUrl) {
         this.commentImage = commentImageUrl;

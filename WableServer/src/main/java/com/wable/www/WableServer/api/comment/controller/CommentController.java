@@ -2,6 +2,7 @@ package com.wable.www.WableServer.api.comment.controller;
 
 import com.wable.www.WableServer.api.comment.dto.request.CommentLikedRequestDto;
 import com.wable.www.WableServer.api.comment.dto.request.CommentPostRequestDto;
+import com.wable.www.WableServer.api.comment.dto.request.CommentPostRequestDtoVer2;
 import com.wable.www.WableServer.api.comment.service.CommentCommendService;
 import com.wable.www.WableServer.api.comment.service.CommentQueryService;
 import com.wable.www.WableServer.common.response.ApiResponse;
@@ -106,5 +107,12 @@ public class CommentController {
     public ResponseEntity<ApiResponse<Object>> getCommentAllByMemberWithImage(Principal principal, @PathVariable Long memberId, @RequestParam(value = "cursor") Long cursor){
         Long usingMemberId = MemberUtil.getMemberId(principal);
         return ApiResponse.success(GET_MEMBER_COMMENT_SECCESS, commentQueryService.getCommentAllByMemberWithImage(usingMemberId,memberId,cursor));
+    }
+
+    @PostMapping("v3/content/{contentId}/comment")
+    @Operation(summary = "답글 작성 API입니다.(+대댓글)", description = "CommentPostWithParentChildComment")
+    public ResponseEntity<ApiResponse<Object>> postCommentWithParentChildComment(Principal principal, @PathVariable Long contentId, @Valid @RequestBody CommentPostRequestDtoVer2 commentPostRequestDtoVer2) {
+        commentCommendService.postCommentWithParentChildComment(MemberUtil.getMemberId(principal),contentId, commentPostRequestDtoVer2);
+        return ApiResponse.success(POST_COMMENT_SUCCESS);
     }
 }

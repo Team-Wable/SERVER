@@ -4,6 +4,7 @@ import com.wable.www.WableServer.api.comment.domain.Comment;
 import com.wable.www.WableServer.api.comment.domain.CommentLiked;
 import com.wable.www.WableServer.api.comment.dto.request.CommentLikedRequestDto;
 import com.wable.www.WableServer.api.comment.dto.request.CommentPostRequestDto;
+import com.wable.www.WableServer.api.comment.dto.request.CommentPostRequestDtoVer2;
 import com.wable.www.WableServer.api.comment.repository.CommentLikedRepository;
 import com.wable.www.WableServer.api.comment.repository.CommentRepository;
 import com.wable.www.WableServer.api.content.domain.Content;
@@ -49,6 +50,7 @@ public class CommentCommendService {
                 .member(usingMember)
                 .content(content)
                 .commentText(commentPostRequestDto.commentText())
+                .parentCommentId(-1L)
                 .build();
         Comment savedComment = commentRepository.save(comment);
 
@@ -104,6 +106,7 @@ public class CommentCommendService {
                 .member(usingMember)
                 .content(content)
                 .commentText(commentPostRequestDto.commentText())
+                .parentCommentId(-1L)
                 .build();
         Comment savedComment = commentRepository.save(comment);
 
@@ -249,6 +252,100 @@ public class CommentCommendService {
 
         }else{ //댓글좋아요 엔티티에 존재하지 않을 경우 예외처리
             throw new BadRequestException(ErrorStatus.UNEXIST_COMMENT_LIKE.getMessage());
+        }
+    }
+
+    public void postCommentWithParentChildComment(Long memberId, Long contentId, CommentPostRequestDtoVer2 commentPostRequestDtoVer2){
+        Content content = contentRepository.findContentByIdOrThrow(contentId);
+        Member usingMember = memberRepository.findMemberByIdOrThrow(memberId);
+
+        usingMember.increaseExpPostComment();
+
+        GhostUtil.isGhostMember(usingMember.getMemberGhost());
+
+        Comment comment = Comment.builder()
+                .member(usingMember)
+                .content(content)
+                .commentText(commentPostRequestDtoVer2.commentText())
+                .parentCommentId(commentPostRequestDtoVer2.parentCommentId())
+                .build();
+        Comment savedComment = commentRepository.save(comment);
+
+        //답글 작성 시 게시물 작상자에게 알림 발생
+        Member contentWritingMember = memberRepository.findMemberByIdOrThrow(content.getMember().getId());
+
+        if(usingMember != contentWritingMember) {  ////자신 게시물에 대한 좋아요 누르면 알림 발생 x
+            if(commentPostRequestDtoVer2.parentCommentId().equals(-1L)) {
+                Notification notification = Notification.builder()
+                        .notificationTargetMember(contentWritingMember)
+                        .notificationTriggerMemberId(usingMember.getId())
+                        .notificationTriggerType("comment")
+                        .notificationTriggerId(comment.getId())
+                        .isNotificationChecked(false)
+                        .notificationText(comment.getCommentText())
+                        .build();
+                Notification savedNotification = notificationRepository.save(notification);
+
+                if (Boolean.TRUE.equals(contentWritingMember.getIsPushAlarmAllowed())) {
+                    String FcmMessageTitle = usingMember.getNickname() + "님이 댓글을 작성했습니다.";
+                    contentWritingMember.increaseFcmBadge();
+                    FcmMessageDto commentFcmMessage = FcmMessageDto.builder()
+                            .validateOnly(false)
+                            .message(FcmMessageDto.Message.builder()
+                                    .notificationDetails(FcmMessageDto.NotificationDetails.builder()
+                                            .title(FcmMessageTitle)
+                                            .body(commentPostRequestDtoVer2.commentText())
+                                            .build())
+                                    .token(contentWritingMember.getFcmToken())
+                                    .data(FcmMessageDto.Data.builder()
+                                            .name("comment")
+                                            .description("댓글 푸시 알림")
+                                            .relateContentId(String.valueOf(contentId))
+                                            .build())
+                                    .badge(contentWritingMember.getFcmBadge())
+                                    .build())
+                            .build();
+
+                    fcmService.sendMessage(commentFcmMessage);
+                }
+            }else { //대댓글의 경우
+                Member parentCommentWriter = memberRepository.findMemberByIdOrThrow(commentPostRequestDtoVer2.parentCommentWriterId());
+
+                if(!usingMember.equals(contentWritingMember)) {
+                    Notification notification = Notification.builder()
+                            .notificationTargetMember(parentCommentWriter)
+                            .notificationTriggerMemberId(usingMember.getId())
+                            .notificationTriggerType("childComment")
+                            .notificationTriggerId(comment.getId())
+                            .isNotificationChecked(false)
+                            .notificationText(comment.getCommentText())
+                            .build();
+                    Notification savedNotification = notificationRepository.save(notification);
+
+                    if (Boolean.TRUE.equals(parentCommentWriter.getIsPushAlarmAllowed())) {
+                        String FcmMessageTitle = usingMember.getNickname() + "님이 답글을 작성했습니다.";
+                        parentCommentWriter.increaseFcmBadge();
+                        FcmMessageDto commentFcmMessage = FcmMessageDto.builder()
+                                .validateOnly(false)
+                                .message(FcmMessageDto.Message.builder()
+                                        .notificationDetails(FcmMessageDto.NotificationDetails.builder()
+                                                .title(FcmMessageTitle)
+                                                .body(commentPostRequestDtoVer2.commentText())
+                                                .build())
+                                        .token(parentCommentWriter.getFcmToken())
+                                        .data(FcmMessageDto.Data.builder()
+                                                .name("childComment")
+                                                .description("답글 푸시 알림")
+                                                .relateContentId(String.valueOf(contentId))
+                                                .build())
+                                        .badge(parentCommentWriter.getFcmBadge())
+                                        .build())
+                                .build();
+
+                        fcmService.sendMessage(commentFcmMessage);
+                    }
+                }
+            }
         }
     }
 
