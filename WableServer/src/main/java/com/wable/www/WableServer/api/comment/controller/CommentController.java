@@ -122,4 +122,11 @@ public class CommentController {
         Long usingMemberId = MemberUtil.getMemberId(principal);
         return ApiResponse.success(GET_MEMBER_COMMENT_SECCESS, commentQueryService.getCommentAllByMemberWithBlind(usingMemberId,memberId,cursor));
     }
+
+    @Operation(summary = "게시물에 해당하는 답글 리스트 조회 API(대댓글) 입니다.", description = "Comments By Content With hierarchy")
+    @GetMapping("v3/content/{contentId}/comments")
+    public ResponseEntity<ApiResponse<Object>> getCommentAllWithHierarchy(Principal principal, @PathVariable Long contentId, @RequestParam(value = "cursor") Long cursor){
+        Long memberId = MemberUtil.getMemberId(principal);
+        return ApiResponse.success(GET_COMMENT_ALL_SUCCESS, commentQueryService.getCommentsWithHierarchy(memberId, contentId, cursor));
+    }
 }

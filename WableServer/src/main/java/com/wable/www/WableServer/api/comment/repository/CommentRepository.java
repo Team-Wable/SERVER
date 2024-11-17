@@ -46,6 +46,22 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findAllByMember(Member member);
 
+    @Query("""
+    SELECT c
+    FROM Comment c
+    WHERE c.parentCommentId = -1 AND c.content.id = :contentId AND (:cursor = -1 OR c.id > :cursor)
+    ORDER BY c.createdAt ASC
+    """)
+    Slice<Comment> findParentCommentsWithPaginationAfterCursor(Long cursor, Long contentId, PageRequest pageRequest);
+
+    @Query("""
+    SELECT c
+    FROM Comment c
+    WHERE c.parentCommentId = :parentId
+    ORDER BY c.createdAt ASC
+    """)
+    List<Comment> findChildComments(Long parentId);
+
     @Transactional
     @Modifying
     @Query("DELETE FROM Comment c WHERE c.isDeleted = true AND c.deleteAt < :currentDate")
