@@ -1,11 +1,7 @@
 package com.wable.www.WableServer.api.comment.service;
 
 import com.wable.www.WableServer.api.comment.domain.Comment;
-import com.wable.www.WableServer.api.comment.dto.response.CommentAllByMemberResponseDto;
-import com.wable.www.WableServer.api.comment.dto.response.CommentAllByMemberResponseDtoVer2;
-import com.wable.www.WableServer.api.comment.dto.response.CommentAllResponseDto;
-import com.wable.www.WableServer.api.comment.dto.response.CommentAllResponseDtoVer2;
-import com.wable.www.WableServer.api.comment.dto.response.CommentAllResponseDtoVer3;
+import com.wable.www.WableServer.api.comment.dto.response.*;
 import com.wable.www.WableServer.api.comment.repository.CommentLikedRepository;
 import com.wable.www.WableServer.api.comment.repository.CommentRepository;
 import com.wable.www.WableServer.api.content.repository.ContentRepository;
@@ -19,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -152,6 +150,78 @@ public class CommentQueryService {
                         likedNumber(oneComment.getId()),
                         oneComment)
                 ).collect(Collectors.toList());
+    }
+
+    public List<CommentAllByMemberResponseDtoVer3> getCommentAllByMemberWithBlind(Long principalId, Long memberId, Long cursor) {
+        memberRepository.findMemberByIdOrThrow(memberId);
+
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        Slice<Comment> commentList;
+
+        if (cursor==-1) {
+            commentList = commentRepository.findCommentsTop15ByMemberIdOrderByCreatedAtDesc(memberId, pageRequest);
+        } else {
+            commentList = commentRepository.findCommentsByMemberNextPage(cursor, memberId, pageRequest);
+        }
+
+        return commentList.stream()
+                .map(oneComment -> CommentAllByMemberResponseDtoVer3.of(
+                        memberRepository.findMemberByIdOrThrow(memberId),
+                        checkLikedComment(principalId, oneComment.getId()),
+                        checkGhost(principalId, oneComment.getId()),
+                        checkMemberGhost(oneComment.getId()),
+                        likedNumber(oneComment.getId()),
+                        oneComment)
+                ).collect(Collectors.toList());
+    }
+
+    public List<CommentAllResponseDtoVer4> getCommentsWithHierarchy(Long memberId, Long contentId, Long cursor) {
+        PageRequest pageRequest = PageRequest.of(0, COMMENT_DEFAULT_PAGE_SIZE);
+        Slice<Comment> parentComments = commentRepository.findParentCommentsWithPaginationAfterCursor(cursor, contentId, pageRequest);
+
+        // 결과 리스트 초기화
+        List<CommentAllResponseDtoVer4> result = new ArrayList<>();
+
+        for (Comment parent : parentComments) {
+            // 대댓글 조회 및 변환
+            List<Comment> childComments = commentRepository.findChildComments(parent.getId());
+
+            List<CommentAllResponseDtoVer4> childDtos = childComments.stream()
+                    .map(child -> CommentAllResponseDtoVer4.of(
+                            child.getId(),
+                            memberRepository.findMemberByIdOrThrow(child.getMember().getId()),
+                            checkGhost(memberId, child.getId()),
+                            checkMemberGhost(child.getId()),
+                            checkLikedComment(memberId, child.getId()),
+                            TimeUtilCustom.refineTime(child.getCreatedAt()),
+                            likedNumber(child.getId()),
+                            child.getCommentText(),
+                            child.getCommentImage(),
+                            child.getParentCommentId(),
+                            child.isBlind(),
+                            null // 대댓글의 대댓글은 없으므로 null로 설정
+                    ))
+                    .collect(Collectors.toList());
+
+            // 부모 댓글 DTO 변환 (대댓글 포함)
+            CommentAllResponseDtoVer4 parentDto = CommentAllResponseDtoVer4.of(
+                    parent.getId(),
+                    memberRepository.findMemberByIdOrThrow(parent.getMember().getId()),
+                    checkGhost(memberId, parent.getId()),
+                    checkMemberGhost(parent.getId()),
+                    checkLikedComment(memberId, parent.getId()),
+                    TimeUtilCustom.refineTime(parent.getCreatedAt()),
+                    likedNumber(parent.getId()),
+                    parent.getCommentText(),
+                    parent.getCommentImage(),
+                    parent.getParentCommentId(),
+                    parent.isBlind(),
+                    childDtos // 대댓글 추가
+            );
+
+            result.add(parentDto);
+        }
+        return result;
     }
 
     private boolean checkGhost(Long usingMemberId, Long commentId) {

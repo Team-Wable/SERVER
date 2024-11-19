@@ -20,6 +20,8 @@ import com.wable.www.WableServer.external.fcm.dto.FcmMessageDto;
 import com.wable.www.WableServer.external.fcm.service.FcmService;
 import com.wable.www.WableServer.external.s3.service.S3Service;
 import java.io.IOException;
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -163,11 +165,27 @@ public class CommentCommendService {
     public void deleteComment(Long memberId, Long commentId) {
         deleteValidate(memberId, commentId);
 
-        notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("commentLiked",commentId);
-        notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("comment",commentId);
-        notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("commentGhost", commentId);
-
         Comment deleteComment = commentRepository.findCommentByIdOrThrow(commentId);
+        if(deleteComment.getParentCommentId().equals(-1L)) {
+            notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("commentLiked", commentId);
+            notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("comment", commentId);
+            notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("commentGhost", commentId);
+
+            List<Comment> childComment = commentRepository.findChildComments(commentId);
+
+            for (Comment comment : childComment) {
+                Long childCommentId = comment.getId();
+                notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("childCommentLiked", childCommentId);
+                notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("childComment", childCommentId);
+                notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("commentGhost", childCommentId);
+                comment.softDelete();
+            }
+        } else {
+            notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("childCommentLiked", commentId);
+            notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("childComment", commentId);
+            notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("commentGhost", commentId);
+        }
+
         deleteComment.softDelete();
     }
 
