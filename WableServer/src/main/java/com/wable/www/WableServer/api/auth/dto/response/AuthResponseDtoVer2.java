@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
-public class AuthResponseDto {
+public class AuthResponseDtoVer2 {
 
     private String nickName;
 
@@ -28,4 +28,6 @@ public class AuthResponseDto {
     private int memberLckYears;
 
     private int memberLevel;
+
+    private Boolean isAdmin;
 }

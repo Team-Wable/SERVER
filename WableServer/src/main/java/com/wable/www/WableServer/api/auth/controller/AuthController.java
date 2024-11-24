@@ -2,6 +2,7 @@ package com.wable.www.WableServer.api.auth.controller;
 
 import com.wable.www.WableServer.api.auth.dto.request.AuthRequestDto;
 import com.wable.www.WableServer.api.auth.dto.response.AuthResponseDto;
+import com.wable.www.WableServer.api.auth.dto.response.AuthResponseDtoVer2;
 import com.wable.www.WableServer.api.auth.dto.response.AuthTokenResponseDto;
 import com.wable.www.WableServer.api.auth.service.AuthService;
 import com.wable.www.WableServer.common.config.jwt.JwtTokenProvider;
@@ -20,14 +21,14 @@ import java.security.spec.InvalidKeySpecException;
 import static com.wable.www.WableServer.common.response.SuccessStatus.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/")
 @RequiredArgsConstructor
 @Tag(name="유저 가입과 시큐리티 관련",description = "Auth Api Document")
 public class AuthController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping
+    @PostMapping("v1/auth")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "소셜 로그인 및 회원가입",description = "social signup, signin")
     public ResponseEntity<ApiResponse<AuthResponseDto>>  socialLogin(@RequestHeader("Authorization") String socialAccessToken, @RequestBody AuthRequestDto authRequestDto) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -42,7 +43,7 @@ public class AuthController {
 
     }
 
-    @GetMapping("/token")
+    @GetMapping("v1/auth/token")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "토큰 재발급 API",description = "token")
     public ResponseEntity<ApiResponse<AuthTokenResponseDto>> getNewToken(HttpServletRequest request) {
@@ -50,5 +51,20 @@ public class AuthController {
         String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
 
         return ApiResponse.success(GET_NEW_TOKEN_SUCCESS, authService.getNewToken(accessToken, refreshToken));
+    }
+
+    @PostMapping("v2/auth")
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "소셜 로그인 및 회원가입(+어드민)",description = "social signup, signin with admin")
+    public ResponseEntity<ApiResponse<AuthResponseDtoVer2>>  socialLoginWithAdmin(@RequestHeader("Authorization") String socialAccessToken, @RequestBody AuthRequestDto authRequestDto) throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+        AuthResponseDtoVer2 responseDto = authService.socialLoginWithAdmin(socialAccessToken, authRequestDto);
+        // 로그인
+        if (!responseDto.getIsNewUser()) {
+            return ApiResponse.success(SIGNIN_SUCCESS, responseDto);
+        }
+        // 회원가입
+        return ApiResponse.success(SIGNUP_SUCCESS, responseDto);
+
     }
 }
