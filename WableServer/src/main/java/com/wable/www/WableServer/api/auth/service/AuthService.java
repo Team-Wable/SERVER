@@ -2,6 +2,7 @@ package com.wable.www.WableServer.api.auth.service;
 
 import com.wable.www.WableServer.api.auth.dto.request.AuthRequestDto;
 import com.wable.www.WableServer.api.auth.dto.response.AuthResponseDto;
+import com.wable.www.WableServer.api.auth.dto.response.AuthResponseDtoVer2;
 import com.wable.www.WableServer.api.auth.dto.response.AuthTokenResponseDto;
 
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +14,8 @@ public interface AuthService {
 
     //새로운 토큰 발급
     AuthTokenResponseDto getNewToken(String accessToken, String refreshToken);
+
+    AuthResponseDtoVer2 socialLoginWithAdmin(String socialAccessToken, AuthRequestDto authRequestDto) throws NoSuchAlgorithmException, InvalidKeySpecException;
 }
 
 
