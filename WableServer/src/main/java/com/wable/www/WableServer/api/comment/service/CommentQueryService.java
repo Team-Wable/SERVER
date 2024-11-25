@@ -176,7 +176,7 @@ public class CommentQueryService {
     }
 
     public List<CommentAllResponseDtoVer4> getCommentsWithHierarchy(Long memberId, Long contentId, Long cursor) {
-        PageRequest pageRequest = PageRequest.of(0, COMMENT_DEFAULT_PAGE_SIZE);
+        PageRequest pageRequest = PageRequest.of(0, 10);
         Slice<Comment> parentComments = commentRepository.findParentCommentsWithPaginationAfterCursor(cursor, contentId, pageRequest);
 
         // 결과 리스트 초기화
