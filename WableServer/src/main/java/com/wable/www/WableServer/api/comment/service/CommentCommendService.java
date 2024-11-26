@@ -364,7 +364,7 @@ public class CommentCommendService {
             }else { //대댓글의 경우
                 Member parentCommentWriter = memberRepository.findMemberByIdOrThrow(commentPostRequestDtoVer2.parentCommentWriterId());
 
-                if(!usingMember.equals(contentWritingMember)) {
+                if(!usingMember.equals(contentWritingMember)&&!usingMember.equals(parentCommentWriter)) {
                     Notification notification = Notification.builder()
                             .notificationTargetMember(parentCommentWriter)
                             .notificationTriggerMemberId(usingMember.getId())
