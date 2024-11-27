@@ -115,7 +115,8 @@ public class NotificationQueryService {
 
 //        Comment comment = commentRepository.findCommentByIdOrThrow(triggerId);
         //답글관련(답글좋아요 혹은 답글 작성, 답글 투명도)시 게시물 id 반환
-        if(triggerType.equals("comment") || triggerType.equals("commentLiked") || triggerType.equals("commentGhost")) {
+        if(triggerType.equals("comment") || triggerType.equals("commentLiked") || triggerType.equals("commentGhost")
+                || triggerType.equals("childCommentLiked") || triggerType.equals("childComment")) {
             Comment comment = commentRepository.findCommentByIdOrThrow(triggerId);
             return comment.getContent().getId();
         }else{
