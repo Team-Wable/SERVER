@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface LckRankingRepository extends JpaRepository<LckRanking, Long> {
 	List<LckRanking> getAllByOrderByLckRankingAsc();
+
+	List<LckRanking> getAllByOrderByIdAsc();
 }
