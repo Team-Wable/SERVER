@@ -72,11 +72,15 @@ public enum SuccessStatus {
     GET_LCK_SCHEDULE_SUCCESS(HttpStatus.OK, "경기 일정 조회 성공"),
     GET_LCK_GAMETYPE_SUCCESS(HttpStatus.OK, "경기 종목 조회 성공"),
     /**
-     * report
+     * Community
      */
     GET_MEMBER_COMMUNITY_SUCCESS(HttpStatus.OK, "사용자 커뮤니티 조회 성공"),
     GET_COMMUNITY_LIST_SUCCESS(HttpStatus.OK, "커뮤니티 목록 조회 성공"),
-    MEMBER_PREIN_COMMUNITY_SUCCESS(HttpStatus.OK, "커뮤니티 사전참여 완료")
+    MEMBER_PREIN_COMMUNITY_SUCCESS(HttpStatus.OK, "커뮤니티 사전참여 완료"),
+    /**
+     * Viewit
+     */
+    POST_VIEWIT_SUCCESS(HttpStatus.CREATED, "뷰잇 작성 완료")
     ;
 
     private final HttpStatus httpStatus;
