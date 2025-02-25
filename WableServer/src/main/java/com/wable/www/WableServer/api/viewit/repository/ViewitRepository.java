@@ -3,6 +3,10 @@ package com.wable.www.WableServer.api.viewit.repository;
 import com.wable.www.WableServer.api.viewit.domain.Viewit;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface ViewitRepository extends JpaRepository<Viewit, Long> {
 	Viewit findViewitById(Long viewitId);
+
+	List<Viewit> findAllByMemberId(Long memberId);
 }
