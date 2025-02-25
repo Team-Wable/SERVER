@@ -101,6 +101,9 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_ban_count", columnDefinition = "INT DEFAULT 0")
     private int memberBanCount;
 
+    @Column(name = "member_community")
+    private String memberCommunity;
+
     @Builder
     private Member(String nickname, SocialPlatform socialPlatform, String socialId, String profileUrl, String memberEmail, String socialNickname) {
         this.nickname = nickname;
@@ -116,6 +119,7 @@ public class Member extends BaseTimeEntity {
         this.memberLckYears = 0;
         this.memberExp = 0;
         this.memberBanCount = 0;
+        this.memberCommunity = null;
     }
 
     public void decreaseGhost() {
