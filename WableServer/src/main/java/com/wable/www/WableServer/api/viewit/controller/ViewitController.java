@@ -1,7 +1,9 @@
 package com.wable.www.WableServer.api.viewit.controller;
 
 import com.wable.www.WableServer.api.viewit.dto.request.ViewitPostRequestDto;
+import com.wable.www.WableServer.api.viewit.dto.response.ViewitGetAllResponseDto;
 import com.wable.www.WableServer.api.viewit.service.ViewitCommandService;
+import com.wable.www.WableServer.api.viewit.service.ViewitQueryService;
 import com.wable.www.WableServer.common.response.ApiResponse;
 import com.wable.www.WableServer.common.response.SuccessStatus;
 import com.wable.www.WableServer.common.util.MemberUtil;
@@ -14,6 +16,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 import static com.wable.www.WableServer.common.response.SuccessStatus.*;
 
@@ -24,6 +27,7 @@ import static com.wable.www.WableServer.common.response.SuccessStatus.*;
 @Tag(name="뷰잇 관련", description = "Viewit API Document")
 public class ViewitController {
 	private final ViewitCommandService viewitCommandService;
+	private final ViewitQueryService viewitQueryService;
 
 	@PostMapping("v1/viewit")
 	@Operation(summary = "뷰잇 작성 API 입니다.",description = "Viewit Post")
@@ -52,4 +56,12 @@ public class ViewitController {
 		viewitCommandService.deleteViewit(MemberUtil.getMemberId(principal), viewitId);
 		return ApiResponse.success(DELETE_VIEWIT_SUCCESS);
 	}
+
+	@GetMapping("v1/viewit")
+	@Operation(summary = "뷰잇 목록 조회 API 입니다.",description = "Viewit List Get")
+	public ResponseEntity<ApiResponse<List<ViewitGetAllResponseDto>>> getViewitAll(Principal principal,
+																				   @RequestParam(value = "cursor") Long cursor) {
+		return ApiResponse.success(GET_VIEW_ALL_SUCCESS, viewitQueryService.getViewitAll(MemberUtil.getMemberId(principal), cursor));
+	}
+
 }

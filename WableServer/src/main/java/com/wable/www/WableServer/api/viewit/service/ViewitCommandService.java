@@ -36,6 +36,7 @@ public class ViewitCommandService {
 		Viewit viewit = viewitRepository.save(Viewit.builder()
 				.memberId(memberId)
 				.viewitImage(viewitPostRequestDto.viewitImage())
+				.viewitLink(viewitPostRequestDto.viewitLink())
 				.viewitTitle(viewitPostRequestDto.viewitTitle())
 				.viewitText(viewitPostRequestDto.viewitText())
 				.build());

@@ -22,6 +22,9 @@ public class Viewit extends BaseTimeEntity {
 	@Column(name = "viewit_image")
 	private String viewitImage;
 
+	@Column(name = "viewit_link")
+	private String viewitLink;
+
 	@Column(name = "viewit_title")
 	private String viewitTitle;
 
@@ -32,9 +35,10 @@ public class Viewit extends BaseTimeEntity {
 	private boolean isBlind;
 
 	@Builder
-	public Viewit(Long memberId, String viewitImage, String viewitTitle, String viewitText) {
+	public Viewit(Long memberId, String viewitImage,String viewitLink, String viewitTitle, String viewitText) {
 		this.memberId = memberId;
 		this.viewitImage = viewitImage;
+		this.viewitLink = viewitLink;
 		this.viewitTitle = viewitTitle;
 		this.viewitText = viewitText;
 	}

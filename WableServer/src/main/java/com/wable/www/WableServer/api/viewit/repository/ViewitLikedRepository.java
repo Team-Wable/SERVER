@@ -7,4 +7,6 @@ public interface ViewitLikedRepository extends JpaRepository<ViewitLiked, Long> 
 	boolean existsByViewitIdAndMemberId(Long viewitId, Long memberId);
 
 	void deleteByMemberIdAndViewitId(Long memberId, Long viewitId);
+
+	int countByViewitId(Long viewitId);
 }

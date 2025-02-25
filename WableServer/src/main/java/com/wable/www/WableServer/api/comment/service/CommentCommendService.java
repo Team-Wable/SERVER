@@ -14,6 +14,7 @@ import com.wable.www.WableServer.api.member.repository.MemberRepository;
 import com.wable.www.WableServer.api.notification.domain.Notification;
 import com.wable.www.WableServer.api.notification.repository.NotificationRepository;
 import com.wable.www.WableServer.common.exception.BadRequestException;
+import com.wable.www.WableServer.common.exception.UnAuthorizedException;
 import com.wable.www.WableServer.common.response.ErrorStatus;
 import com.wable.www.WableServer.common.util.GhostUtil;
 import com.wable.www.WableServer.external.fcm.dto.FcmMessageDto;
@@ -196,7 +197,7 @@ public class CommentCommendService {
         Long commentMemberId = comment.getMember().getId();
 
         if (!commentMemberId.equals(memberId)) {    //답글작성자 != 현재 유저 >> 권한error
-            throw new BadRequestException(ErrorStatus.UNAUTHORIZED_MEMBER.getMessage());
+            throw new UnAuthorizedException(ErrorStatus.UNAUTHORIZED_MEMBER.getMessage());
         }
     }
 
