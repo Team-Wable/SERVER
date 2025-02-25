@@ -70,7 +70,13 @@ public enum SuccessStatus {
      */
     GET_LCK_RANKING_SUCCESS(HttpStatus.OK, "랭킹 목록 조회 성공"),
     GET_LCK_SCHEDULE_SUCCESS(HttpStatus.OK, "경기 일정 조회 성공"),
-    GET_LCK_GAMETYPE_SUCCESS(HttpStatus.OK, "경기 종목 조회 성공")
+    GET_LCK_GAMETYPE_SUCCESS(HttpStatus.OK, "경기 종목 조회 성공"),
+    /**
+     * report
+     */
+    GET_MEMBER_COMMUNITY_SUCCESS(HttpStatus.OK, "사용자 커뮤니티 조회 성공"),
+    GET_COMMUNITY_LIST_SUCCESS(HttpStatus.OK, "커뮤니티 목록 조회 성공"),
+    MEMBER_PREIN_COMMUNITY_SUCCESS(HttpStatus.OK, "커뮤니티 사전참여 완료")
     ;
 
     private final HttpStatus httpStatus;

@@ -20,4 +20,15 @@ public class Community {
 
 	@Column(name = "community_number")
 	private int communityNumber;
+
+	public void increaseCommunityNumber() {
+		this.communityNumber++;
+	}
+
+	public double calculatePercent() {
+		int communityNumber = this.communityNumber;
+		final int TOTAL = 50;
+		if (communityNumber == 0) return 0.0;
+		return Math.round(((double) communityNumber / TOTAL * 100.0) * 10) / 10.0;
+	}
 }
