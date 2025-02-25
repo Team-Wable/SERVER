@@ -92,6 +92,19 @@ public class ViewitCommandService {
 		}
 	}
 
+	public void unlikeViewit(Long memberId, Long viewitId) {
+		if(!viewitLikedRepository.existsByViewitIdAndMemberId(viewitId,memberId)) {
+			throw new BadRequestException(ErrorStatus.UNEXITST_VIEWIT_LIKE.getMessage());
+		}
+
+		viewitLikedRepository.deleteByMemberIdAndViewitId(memberId,viewitId);
+
+		Member targetMember = memberRepository.findMemberByIdOrThrow(viewitRepository.findViewitById(viewitId).getMemberId());
+
+		notificationRepository.deleteByNotificationTargetMemberAndNotificationTriggerMemberIdAndNotificationTriggerTypeAndNotificationTriggerId(
+				targetMember, memberId, "viewitLiked", viewitId);
+	}
+
 	private void isDuplicateViewitLike(Long memberId, Long viewitId) {
 		if(viewitLikedRepository.existsByViewitIdAndMemberId(viewitId, memberId)) {
 			throw new BadRequestException(ErrorStatus.DUPLICATION_VIEWIT_LIKE.getMessage());

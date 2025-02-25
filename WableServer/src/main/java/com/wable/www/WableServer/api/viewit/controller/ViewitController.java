@@ -10,10 +10,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -39,5 +36,12 @@ public class ViewitController {
 	public ResponseEntity<ApiResponse<Object>> liekViewit(Principal principal, @PathVariable("viewitId") Long viewitId) {
 		viewitCommandService.likeViewit(MemberUtil.getMemberId(principal), viewitId);
 		return ApiResponse.success(LIKE_VIEWIT_SUCCESS);
+	}
+
+	@DeleteMapping("v1/viewit/{viewitId}/unliked")
+	@Operation(summary = "뷰잇 좋아요 취소 API 입니다.",description = "Viewit Unike")
+	public ResponseEntity<ApiResponse<Object>> unlikeViewit(Principal principal, @PathVariable("viewtId") Long viewitId) {
+		viewitCommandService.unlikeViewit(MemberUtil.getMemberId(principal),viewitId);
+		return ApiResponse.success(UNLIKE_VIEWIT_SUCCESS);
 	}
 }
