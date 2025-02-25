@@ -49,7 +49,7 @@ public class PopularContentScheduler {
 
         Content topContent = contents.stream()
                 .map(c -> new AbstractMap.SimpleEntry<>(c, contentLikedRepository.countByContent(c) + commentRepository.countByContent(c) * 1.6))
-                .filter(e -> e.getValue() >= 5)
+                .filter(e -> e.getValue() >= 8)
                 .max(Comparator.comparingDouble(Map.Entry::getValue))
                 .map(Map.Entry::getKey)
                 .orElse(null);
