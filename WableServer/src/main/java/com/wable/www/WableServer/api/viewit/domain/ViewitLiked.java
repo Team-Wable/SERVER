@@ -2,6 +2,7 @@ package com.wable.www.WableServer.api.viewit.domain;
 
 import com.wable.www.WableServer.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +21,10 @@ public class ViewitLiked extends BaseTimeEntity {
 
 	@Column(name = "member_id")
 	private Long memberId;
+
+	@Builder
+	public ViewitLiked(Long viewitId, Long memberId) {
+		this.viewitId = viewitId;
+		this.memberId = memberId;
+	}
 }

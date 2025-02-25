@@ -7,6 +7,8 @@ import com.wable.www.WableServer.api.content.repository.ContentRepository;
 import com.wable.www.WableServer.api.member.domain.Member;
 import com.wable.www.WableServer.api.member.repository.MemberRepository;
 import com.wable.www.WableServer.api.report.dto.BanRequestDto;
+import com.wable.www.WableServer.api.viewit.domain.Viewit;
+import com.wable.www.WableServer.api.viewit.repository.ViewitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ public class ReportCommandService {
 	private final CommentRepository commentRepository;
 	private final ContentRepository contentRepository;
 	private final MemberRepository memberRepository;
+	private final ViewitRepository viewitRepository;
 
 	public void blindText(BanRequestDto banRequestDto) {
 		Member member = memberRepository.findMemberByIdOrThrow(banRequestDto.memberId());
@@ -34,10 +37,21 @@ public class ReportCommandService {
 				member.banMember();
 			}
 		}
-		else {
+		if(banRequestDto.triggerType().equals("comment")) {
 			if(member.getMemberBanCount() == 0) {
 				Comment comment = commentRepository.findCommentByIdOrThrow(banRequestDto.triggerId());
 				comment.blindComment();
+				member.banMember();
+			}
+			else {
+				blindAllByMember(member);
+				member.banMember();
+			}
+		}
+		else {
+			if(member.getMemberBanCount() == 0) {
+				Viewit viewit = viewitRepository.findViewitById(banRequestDto.triggerId());
+				viewit.blindViewit();
 				member.banMember();
 			}
 			else {
@@ -56,6 +70,11 @@ public class ReportCommandService {
 		List<Comment> memberComments = commentRepository.findAllByMember(member);
 		for (Comment comment : memberComments) {
 			comment.blindComment();
+		}
+
+		List<Viewit> memberViewits = viewitRepository.findAllByMemberId(member.getId());
+		for (Viewit viewit : memberViewits) {
+			viewit.blindViewit();
 		}
 	}
 }
