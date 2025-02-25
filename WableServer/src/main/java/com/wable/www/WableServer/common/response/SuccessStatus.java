@@ -75,6 +75,7 @@ public enum SuccessStatus {
      * report
      */
     GET_MEMBER_COMMUNITY_SUCCESS(HttpStatus.OK, "사용자 커뮤니티 조회 성공"),
+    GET_COMMUNITY_LIST_SUCCESS(HttpStatus.OK, "커뮤니티 목록 조회 성공"),
     MEMBER_PREIN_COMMUNITY_SUCCESS(HttpStatus.OK, "커뮤니티 사전참여 완료")
     ;
 

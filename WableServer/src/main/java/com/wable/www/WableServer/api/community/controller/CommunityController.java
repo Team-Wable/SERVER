@@ -32,7 +32,7 @@ public class CommunityController {
 	@GetMapping("v1/community/member")
 	@Operation(summary = "사용자 참여 커뮤니티 조회 API 입니다.",description = "Member Get Community")
 	public ResponseEntity<ApiResponse<GetMemberCommunityResponseDto>> getMemberCommunity(Principal principal) {
-		return ApiResponse.success(GET_MEMBER_COMMUNITY_SUCCESS,communityQueryService.getMemberCommunityResponseDto(MemberUtil.getMemberId(principal)));
+		return ApiResponse.success(GET_MEMBER_COMMUNITY_SUCCESS,communityQueryService.getMemberCommunity(MemberUtil.getMemberId(principal)));
 	}
 
 	@PatchMapping("v1/community/prein")
@@ -44,4 +44,9 @@ public class CommunityController {
 
 	}
 
+	@GetMapping("v1/community/list")
+	@Operation(summary = "커뮤니티 목록 조회 API 입니다.",description = "Get Community List")
+	public ResponseEntity<ApiResponse<Object>> getCommunityList(Principal principal) {
+		return ApiResponse.success(GET_COMMUNITY_LIST_SUCCESS,communityQueryService.getCommunityList());
+	}
 }
