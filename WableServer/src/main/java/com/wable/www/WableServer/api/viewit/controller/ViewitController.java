@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,5 +32,12 @@ public class ViewitController {
 	public ResponseEntity<ApiResponse<Object>> postViewit(Principal principal, ViewitPostRequestDto viewitPostRequestDto) {
 		viewitCommandService.postViewit(MemberUtil.getMemberId(principal), viewitPostRequestDto);
 		return ApiResponse.success(POST_VIEWIT_SUCCESS);
+	}
+
+	@PostMapping("v1/viewit/{viewitId}/liked")
+	@Operation(summary = "뷰잇 좋아요 API 입니다.",description = "Viewit Like")
+	public ResponseEntity<ApiResponse<Object>> liekViewit(Principal principal, @PathVariable("viewitId") Long viewitId) {
+		viewitCommandService.likeViewit(MemberUtil.getMemberId(principal), viewitId);
+		return ApiResponse.success(LIKE_VIEWIT_SUCCESS);
 	}
 }

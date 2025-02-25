@@ -17,6 +17,7 @@ public enum ErrorStatus {
     INVALID_MEMBER("유효하지 않은 유저입니다."),
     ANOTHER_ACCESS_TOKEN("지원하지 않는 소셜 플랫폼입니다."),
     DUPLICATION_CONTENT_LIKE("이미 좋아요를 누른 게시물입니다."),
+    DUPLICATION_VIEWIT_LIKE("이미 좋아요를 누른 뷰잇입니다."),
     UNEXITST_CONTENT_LIKE("좋아요를 누르지 않은 게시물입니다."),
     GHOST_HIGHLIMIT("투명도는 0이상일 수 없습니다."),
     DUPLICATION_COMMENT_LIKE("이미 좋아요를 누른 답글입니다."),
