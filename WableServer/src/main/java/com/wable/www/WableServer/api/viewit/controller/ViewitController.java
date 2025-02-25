@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -43,5 +44,12 @@ public class ViewitController {
 	public ResponseEntity<ApiResponse<Object>> unlikeViewit(Principal principal, @PathVariable("viewtId") Long viewitId) {
 		viewitCommandService.unlikeViewit(MemberUtil.getMemberId(principal),viewitId);
 		return ApiResponse.success(UNLIKE_VIEWIT_SUCCESS);
+	}
+
+	@DeleteMapping("v1/viewit/{viewitId}")
+	@Operation(summary = "뷰잇 삭제 API 입니다.",description = "Viewit Delete")
+	public ResponseEntity<ApiResponse<Object>> deleteViewit(Principal principal, @PathVariable("viewitId") Long viewitId) {
+		viewitCommandService.deleteViewit(MemberUtil.getMemberId(principal), viewitId);
+		return ApiResponse.success(DELETE_VIEWIT_SUCCESS);
 	}
 }

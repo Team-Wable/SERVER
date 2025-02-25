@@ -82,7 +82,8 @@ public enum SuccessStatus {
      */
     POST_VIEWIT_SUCCESS(HttpStatus.CREATED, "뷰잇 작성 완료"),
     LIKE_VIEWIT_SUCCESS(HttpStatus.CREATED, "뷰잇 좋아요 성공"),
-    UNLIKE_VIEWIT_SUCCESS(HttpStatus.OK, "뷰잇 좋아요 취소 완료")
+    UNLIKE_VIEWIT_SUCCESS(HttpStatus.OK, "뷰잇 좋아요 취소 완료"),
+    DELETE_VIEWIT_SUCCESS(HttpStatus.OK,"뷰잇 게시물 삭제 완료")
     ;
 
     private final HttpStatus httpStatus;

@@ -10,6 +10,7 @@ import com.wable.www.WableServer.api.viewit.dto.request.ViewitPostRequestDto;
 import com.wable.www.WableServer.api.viewit.repository.ViewitLikedRepository;
 import com.wable.www.WableServer.api.viewit.repository.ViewitRepository;
 import com.wable.www.WableServer.common.exception.BadRequestException;
+import com.wable.www.WableServer.common.exception.UnAuthorizedException;
 import com.wable.www.WableServer.common.response.ErrorStatus;
 import com.wable.www.WableServer.external.fcm.dto.FcmMessageDto;
 import com.wable.www.WableServer.external.fcm.service.FcmService;
@@ -103,6 +104,21 @@ public class ViewitCommandService {
 
 		notificationRepository.deleteByNotificationTargetMemberAndNotificationTriggerMemberIdAndNotificationTriggerTypeAndNotificationTriggerId(
 				targetMember, memberId, "viewitLiked", viewitId);
+	}
+
+	public void deleteViewit(Long memberId, Long viewitId) {
+		deleteValidate(memberId,viewitId);
+		notificationRepository.deleteByNotificationTriggerTypeAndNotificationTriggerId("viewitLiked",viewitId);
+		viewitRepository.deleteById(viewitId);
+	}
+
+	private void deleteValidate(Long memberId, Long viewitId) {
+		Viewit viewit = viewitRepository.findViewitById(viewitId);
+		Long viewitMemberId = viewit.getMemberId();
+
+		if(!viewitMemberId.equals(memberId)) {
+			throw new UnAuthorizedException(ErrorStatus.UNAUTHORIZED_MEMBER.getMessage());
+		}
 	}
 
 	private void isDuplicateViewitLike(Long memberId, Long viewitId) {
