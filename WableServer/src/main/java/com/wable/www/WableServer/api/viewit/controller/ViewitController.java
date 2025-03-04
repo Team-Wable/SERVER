@@ -31,7 +31,7 @@ public class ViewitController {
 
 	@PostMapping("v1/viewit")
 	@Operation(summary = "뷰잇 작성 API 입니다.",description = "Viewit Post")
-	public ResponseEntity<ApiResponse<Object>> postViewit(Principal principal, ViewitPostRequestDto viewitPostRequestDto) {
+	public ResponseEntity<ApiResponse<Object>> postViewit(Principal principal, @RequestBody ViewitPostRequestDto viewitPostRequestDto) {
 		viewitCommandService.postViewit(MemberUtil.getMemberId(principal), viewitPostRequestDto);
 		return ApiResponse.success(POST_VIEWIT_SUCCESS);
 	}

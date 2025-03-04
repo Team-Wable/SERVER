@@ -11,10 +11,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.security.Principal;
 
 import static com.wable.www.WableServer.common.response.SuccessStatus.*;
@@ -37,7 +35,7 @@ public class CommunityController {
 
 	@PatchMapping("v1/community/prein")
 	@Operation(summary = "사용자 커뮤니티 사전 참여 API 입니다.",description = "Member Prein Community")
-	public ResponseEntity<ApiResponse<Object>> preinCommunity(Principal principal, CommunityPreinRequestDto communityPreinRequestDto) {
+	public ResponseEntity<ApiResponse<Object>> preinCommunity(Principal principal, @RequestBody CommunityPreinRequestDto communityPreinRequestDto) {
 		Long memberId = MemberUtil.getMemberId(principal);
 		communityCommandService.preinCommunity(memberId, communityPreinRequestDto);
 		return ApiResponse.success(MEMBER_PREIN_COMMUNITY_SUCCESS);
