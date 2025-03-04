@@ -45,7 +45,7 @@ public class ViewitController {
 
 	@DeleteMapping("v1/viewit/{viewitId}/unliked")
 	@Operation(summary = "뷰잇 좋아요 취소 API 입니다.",description = "Viewit Unike")
-	public ResponseEntity<ApiResponse<Object>> unlikeViewit(Principal principal, @PathVariable("viewtId") Long viewitId) {
+	public ResponseEntity<ApiResponse<Object>> unlikeViewit(Principal principal, @PathVariable("viewitId") Long viewitId) {
 		viewitCommandService.unlikeViewit(MemberUtil.getMemberId(principal),viewitId);
 		return ApiResponse.success(UNLIKE_VIEWIT_SUCCESS);
 	}
