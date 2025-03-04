@@ -31,16 +31,20 @@ public class Viewit extends BaseTimeEntity {
 	@Column(name = "viewit_text")
 	private String viewitText;
 
+	@Column(name = "viewit_name")
+	private String viewitName;
+
 	@Column(name = "is_blind", columnDefinition = "BOOLEAN DEFAULT false")
 	private boolean isBlind;
 
 	@Builder
-	public Viewit(Long memberId, String viewitImage,String viewitLink, String viewitTitle, String viewitText) {
+	public Viewit(Long memberId, String viewitImage,String viewitLink, String viewitTitle, String viewitText, String viewitName) {
 		this.memberId = memberId;
 		this.viewitImage = viewitImage;
 		this.viewitLink = viewitLink;
 		this.viewitTitle = viewitTitle;
 		this.viewitText = viewitText;
+		this.viewitName = viewitName;
 	}
 
 	public void blindViewit() { this.isBlind = true;}

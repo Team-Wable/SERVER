@@ -4,6 +4,7 @@ public record ViewitPostRequestDto(
 		String viewitImage,
 		String viewitLink,
 		String viewitTitle,
-		String viewitText
+		String viewitText,
+		String viewitName
 ) {
 }

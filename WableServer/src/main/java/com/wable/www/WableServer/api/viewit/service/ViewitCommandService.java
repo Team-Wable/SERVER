@@ -39,6 +39,7 @@ public class ViewitCommandService {
 				.viewitLink(viewitPostRequestDto.viewitLink())
 				.viewitTitle(viewitPostRequestDto.viewitTitle())
 				.viewitText(viewitPostRequestDto.viewitText())
+				.viewitName(viewitPostRequestDto.viewitName())
 				.build());
 	}
 
