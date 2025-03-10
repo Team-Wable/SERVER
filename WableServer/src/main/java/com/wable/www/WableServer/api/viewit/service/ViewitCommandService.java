@@ -62,7 +62,7 @@ public class ViewitCommandService {
 			Notification notification = Notification.builder()
 					.notificationTargetMember(targetMember)
 					.notificationTriggerMemberId(triggerMember.getId())
-					.notificationTriggerType("ViewitLiked")
+					.notificationTriggerType("viewitLiked")
 					.notificationTriggerId(viewitId)
 					.isNotificationChecked(false)
 					.notificationText("")
