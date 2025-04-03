@@ -17,8 +17,8 @@ public class LckRankingQueryService {
 	private final LckRankingRepository lckRankingRepository;
 
 	public List<LckRankingGetDto> getLckRanking() {
-//		List<LckRanking> lckRankings = lckRankingRepository.getAllByOrderByLckRankingAsc();
-		List<LckRanking> lckRankings = lckRankingRepository.getAllByOrderByIdAsc();
+		List<LckRanking> lckRankings = lckRankingRepository.getAllByOrderByLckRankingAsc();
+//		List<LckRanking> lckRankings = lckRankingRepository.getAllByOrderByIdAsc();
 
 		return lckRankings.stream()
 				.map(lckRanking -> LckRankingGetDto.of(lckRanking, calculateWinningRate(lckRanking)))
