@@ -41,7 +41,7 @@ public class SlackService {
 
     public void sendReportSlackMessage(Long triggerMemberId, ReportSlackRequestDto reportSlackRequestDto) {
         String triggerMemberNickname = memberRepository.findMemberByIdOrThrow(triggerMemberId).getNickname();
-        String relateText = TextUtil.cuttingText(30, reportSlackRequestDto.relateText());
+        String relateText = TextUtil.cuttingText(100, reportSlackRequestDto.relateText());
         String message = triggerMemberNickname + " 님이 " + reportSlackRequestDto.reportTargetNickname() + " 님을 신고했습니다."
                 + "\n" + "관련 내용 : " + relateText;
         try {
