@@ -10,6 +10,7 @@ import com.wable.www.WableServer.api.notification.domain.Notification;
 import com.wable.www.WableServer.api.notification.repository.NotificationRepository;
 import com.wable.www.WableServer.common.exception.BadRequestException;
 import com.wable.www.WableServer.common.response.ErrorStatus;
+import com.wable.www.WableServer.external.slack.service.SlackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class GhostCommandService {
     private final MemberRepository memberRepository;
     private final GhostRepository ghostRepository;
     private final NotificationRepository notificationRepository;
+    private final SlackService slackService;
     public void clickMemberGhost(Long memberId, MemberClickGhostRequestDto memberClickGhostRequestDto) {
         Member triggerMember = memberRepository.findMemberByIdOrThrow(memberId);
         Member targetMember = memberRepository.findMemberByIdOrThrow(memberClickGhostRequestDto.targetMemberId());
@@ -65,6 +67,8 @@ public class GhostCommandService {
     public void clickMemberGhost2(Long memberId, GhostClickRequestDto ghostClickRequestDto) {
         Member triggerMember = memberRepository.findMemberByIdOrThrow(memberId);
         Member targetMember = memberRepository.findMemberByIdOrThrow(ghostClickRequestDto.targetMemberId());
+
+        slackService.sendGhostSlackMessage(memberId, ghostClickRequestDto.targetMemberId(), ghostClickRequestDto);
 
         mySelfGhostBlock(triggerMember,targetMember);
         isDuplicateMemberGhost(triggerMember,targetMember);
