@@ -1,5 +1,6 @@
 package com.wable.www.WableServer.external.slack.service;
 
+import com.wable.www.WableServer.api.ghost.dto.request.GhostClickRequestDto;
 import com.wable.www.WableServer.api.member.repository.MemberRepository;
 import com.wable.www.WableServer.api.report.dto.ReportSlackRequestDto;
 import com.wable.www.WableServer.common.util.TextUtil;
@@ -48,6 +49,25 @@ public class SlackService {
 
             ChatPostMessageRequest request = ChatPostMessageRequest.builder()
                     .channel("#wable-report-slack")
+                    .text(message)
+                    .build();
+            methods.chatPostMessage(request);
+        } catch (SlackApiException | IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public void sendGhostSlackMessage(Long triggerMemberId, Long targetMemberId, GhostClickRequestDto ghostClickRequestDto) {
+        String triggerMemberNickname = memberRepository.findMemberByIdOrThrow(triggerMemberId).getNickname();
+        String targetMemberNickname = memberRepository.findMemberByIdOrThrow(targetMemberId).getNickname();
+        String relateText = ghostClickRequestDto.ghostReason();
+        String message = triggerMemberNickname + " 님이 " + targetMemberNickname + " 님의 투명도를 내렸습니다."
+                + "\n" + "사유 : " + relateText;
+        try {
+            MethodsClient methods = Slack.getInstance().methods(slackToken);
+
+            ChatPostMessageRequest request = ChatPostMessageRequest.builder()
+                    .channel("#wable-ghost-slack")
                     .text(message)
                     .build();
             methods.chatPostMessage(request);
