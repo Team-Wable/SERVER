@@ -67,7 +67,10 @@ public class AppleAuthService {
 
             JsonObject userInfoObject = (JsonObject) JsonParser.parseString(new Gson().toJson(userInfo));
             String appleId = userInfoObject.get("sub").getAsString();
-            String email = userInfoObject.get("email").getAsString();
+            String email = null;
+            if (userInfoObject.has("email") && !userInfoObject.get("email").isJsonNull()) {
+                email = userInfoObject.get("email").getAsString();
+            }
 
 //            return new SocialInfoDto(appleId, userName, null, email);
             return new SocialInfoDto(appleId, userName, email);
