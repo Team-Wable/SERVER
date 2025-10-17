@@ -85,6 +85,10 @@ public enum SuccessStatus {
     UNLIKE_VIEWIT_SUCCESS(HttpStatus.OK, "뷰잇 좋아요 취소 완료"),
     DELETE_VIEWIT_SUCCESS(HttpStatus.OK,"뷰잇 게시물 삭제 완료"),
     GET_VIEW_ALL_SUCCESS(HttpStatus.OK, "뷰잇 목록 조회 성공"),
+    /**
+     * Viewit
+     */
+    GET_CURATION_ALL_SUCCESS(HttpStatus.OK, "큐레이션 목록 조회 성공")
     ;
 
     private final HttpStatus httpStatus;
