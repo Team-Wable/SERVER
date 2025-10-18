@@ -86,10 +86,14 @@ public enum SuccessStatus {
     DELETE_VIEWIT_SUCCESS(HttpStatus.OK,"뷰잇 게시물 삭제 완료"),
     GET_VIEW_ALL_SUCCESS(HttpStatus.OK, "뷰잇 목록 조회 성공"),
     /**
-     * Viewit
+     * Curation
      */
     GET_CURATION_ALL_SUCCESS(HttpStatus.OK, "큐레이션 목록 조회 성공"),
-    GET_CURATION_NUMBER_SUCCESS(HttpStatus.OK, "최신 큐레이션 번호 조회 성공")
+    GET_CURATION_NUMBER_SUCCESS(HttpStatus.OK, "최신 큐레이션 번호 조회 성공"),
+    /**
+     * Quiz
+     */
+    GET_QUIZ_SUCCESS(HttpStatus.OK, "퀴즈 조회 성공")
     ;
 
     private final HttpStatus httpStatus;

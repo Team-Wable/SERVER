@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CurationRepository extends JpaRepository<Curation, Long> {
-	Curation findCurationById(Long curaitonId);
+	Curation findCurationById(Long curationId);
 
 	@Query("SELECT c FROM Curation c WHERE c.id < :lastCurationId ORDER BY c.createdAt DESC")
 	Slice<Curation> findCurationsByNextPage(Long lastCurationId, PageRequest pageRequest);
