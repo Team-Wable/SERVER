@@ -4,10 +4,58 @@ import lombok.RequiredArgsConstructor;
 import com.wable.www.WableServer.common.exception.UnAuthorizedException;
 import com.wable.www.WableServer.common.response.ErrorStatus;
 
+import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class MemberUtil {
+    private static final Map<BigDecimal, Integer> LEVEL_MAP = new LinkedHashMap<>();
+
+    static {
+        LEVEL_MAP.put(new BigDecimal("8"), 1);
+        LEVEL_MAP.put(new BigDecimal("23"), 2);
+        LEVEL_MAP.put(new BigDecimal("47"), 3);
+        LEVEL_MAP.put(new BigDecimal("82"), 4);
+        LEVEL_MAP.put(new BigDecimal("130"), 5);
+        LEVEL_MAP.put(new BigDecimal("194"), 6);
+        LEVEL_MAP.put(new BigDecimal("277"), 7);
+        LEVEL_MAP.put(new BigDecimal("381"), 8);
+        LEVEL_MAP.put(new BigDecimal("508"), 9);
+        LEVEL_MAP.put(new BigDecimal("662"), 10);
+        LEVEL_MAP.put(new BigDecimal("816"), 11);
+        LEVEL_MAP.put(new BigDecimal("970"), 12);
+        LEVEL_MAP.put(new BigDecimal("1124"), 13);
+        LEVEL_MAP.put(new BigDecimal("1278"), 14);
+        LEVEL_MAP.put(new BigDecimal("1463"), 15);
+        LEVEL_MAP.put(new BigDecimal("1683"), 16);
+        LEVEL_MAP.put(new BigDecimal("1942"), 17);
+        LEVEL_MAP.put(new BigDecimal("2244"), 18);
+        LEVEL_MAP.put(new BigDecimal("2593"), 19);
+        LEVEL_MAP.put(new BigDecimal("3005"), 20);
+        LEVEL_MAP.put(new BigDecimal("3492"), 21);
+        LEVEL_MAP.put(new BigDecimal("4066"), 22);
+        LEVEL_MAP.put(new BigDecimal("4743"), 23);
+        LEVEL_MAP.put(new BigDecimal("5542"), 24);
+        LEVEL_MAP.put(new BigDecimal("6485"), 25);
+        LEVEL_MAP.put(new BigDecimal("7598"), 26);
+        LEVEL_MAP.put(new BigDecimal("8911"), 27);
+        LEVEL_MAP.put(new BigDecimal("10460"), 28);
+        LEVEL_MAP.put(new BigDecimal("12288"), 29);
+        LEVEL_MAP.put(new BigDecimal("14444"), 30);
+        LEVEL_MAP.put(new BigDecimal("16988"), 31);
+        LEVEL_MAP.put(new BigDecimal("19987"), 32);
+        LEVEL_MAP.put(new BigDecimal("23526"), 33);
+        LEVEL_MAP.put(new BigDecimal("27702"), 34);
+        LEVEL_MAP.put(new BigDecimal("32630"), 35);
+        LEVEL_MAP.put(new BigDecimal("38445"), 36);
+        LEVEL_MAP.put(new BigDecimal("45304"), 37);
+        LEVEL_MAP.put(new BigDecimal("53387"), 38);
+        LEVEL_MAP.put(new BigDecimal("62905"), 39);
+        LEVEL_MAP.put(new BigDecimal("74040"), 40);
+
+    }
     public static Long getMemberId(Principal principal) {
         if (principal == null) {
             throw new UnAuthorizedException(ErrorStatus.INVALID_MEMBER.getMessage());
@@ -15,47 +63,14 @@ public class MemberUtil {
         return Long.valueOf(principal.getName());
     }
 
-    public static int refineMemberExpToLevel(double memberExp) {
-        if (memberExp >= 0 && memberExp <= 8) {
-            return 1;
-        } else if (memberExp >= 9 && memberExp <= 23) {
-            return 2;
-        } else if (memberExp > 23 && memberExp <= 47) {
-            return 3;
-        } else if (memberExp > 47 && memberExp <= 82) {
-            return 4;
-        } else if (memberExp > 82 && memberExp <= 130) {
-            return 5;
-        } else if (memberExp > 130 && memberExp <= 194) {
-            return 6;
-        } else if (memberExp > 194 && memberExp <= 277) {
-            return 7;
-        } else if (memberExp > 277 && memberExp <= 381) {
-            return 8;
-        } else if (memberExp > 381 && memberExp <= 508) {
-            return 9;
-        } else if (memberExp > 508 && memberExp <= 662) {
-            return 10;
-        } else if (memberExp > 662 && memberExp <= 816) {
-            return 11;
-        } else if (memberExp > 816 && memberExp <= 970) {
-            return 12;
-        } else if (memberExp > 970 && memberExp <= 1124) {
-            return 13;
-        } else if (memberExp > 1124 && memberExp <= 1278) {
-            return 14;
-        } else if (memberExp > 1278 && memberExp <= 1463) {
-            return 15;
-        } else if (memberExp > 1463 && memberExp <= 1683) {
-            return 16;
-        } else if (memberExp > 1683 && memberExp <= 1942) {
-            return 17;
-        } else if (memberExp > 1942 && memberExp <= 2244) {
-            return 18;
-        } else if (memberExp > 2244 && memberExp <= 2593) {
-            return 19;
-        } else {
-            return -1;
+    public static int refineMemberExpToLevel(BigDecimal memberExp) {
+        if (memberExp == null) return 0;
+
+        for (Map.Entry<BigDecimal, Integer> entry : LEVEL_MAP.entrySet()) {
+            if (memberExp.compareTo(entry.getKey()) <= 0) {
+                return entry.getValue();
+            }
         }
+        return 41;
     }
 }
