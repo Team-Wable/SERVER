@@ -2,8 +2,8 @@ package com.wable.www.WableServer.api.curation.service;
 
 import com.wable.www.WableServer.api.curation.domain.Curation;
 import com.wable.www.WableServer.api.curation.dto.response.CurationGetAllResponseDto;
+import com.wable.www.WableServer.api.curation.dto.response.CurationNumberGetResponseDto;
 import com.wable.www.WableServer.api.curation.repository.CurationRepository;
-import com.wable.www.WableServer.api.member.repository.MemberRepository;
 import com.wable.www.WableServer.common.util.TimeUtilCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CurationQueryService {
-	private final MemberRepository memberRepository;
 	private final CurationRepository curationRepository;
 
 	public List<CurationGetAllResponseDto> getCurationAll(Long memberId, Long cursor) {
@@ -33,9 +32,13 @@ public class CurationQueryService {
 
 		return curationList.stream()
 				.map(oneCuration -> CurationGetAllResponseDto.of(
-						memberRepository.findMemberByIdOrThrow(oneCuration.getMemberId()),
 						oneCuration,
 						TimeUtilCustom.refineTime(oneCuration.getCreatedAt())))
 				.collect(Collectors.toList());
+	}
+
+	public CurationNumberGetResponseDto getCurationNumber() {
+		Curation curation = curationRepository.findTop1ByOrderByCreatedAtDesc();
+		return CurationNumberGetResponseDto.of(curation.getId());
 	}
 }

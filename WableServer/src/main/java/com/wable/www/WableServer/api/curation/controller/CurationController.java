@@ -1,6 +1,7 @@
 package com.wable.www.WableServer.api.curation.controller;
 
 import com.wable.www.WableServer.api.curation.dto.response.CurationGetAllResponseDto;
+import com.wable.www.WableServer.api.curation.dto.response.CurationNumberGetResponseDto;
 import com.wable.www.WableServer.api.curation.service.CurationQueryService;
 import com.wable.www.WableServer.common.response.ApiResponse;
 import com.wable.www.WableServer.common.util.MemberUtil;
@@ -32,5 +33,11 @@ public class CurationController {
 	public ResponseEntity<ApiResponse<List<CurationGetAllResponseDto>>> getCurationAll(Principal principal,
 																					   @RequestParam(value = "cursor") Long cursor) {
 		return ApiResponse.success(GET_CURATION_ALL_SUCCESS, curationQueryService.getCurationAll(MemberUtil.getMemberId(principal), cursor));
+	}
+
+	@GetMapping("v1/curation/number")
+	@Operation(summary = "큐레이션 최신 번호 조회 API 입니다.",description = "Curation Newest Id Get")
+	public ResponseEntity<ApiResponse<CurationNumberGetResponseDto>> getCurationNumber(Principal principal) {
+		return ApiResponse.success(GET_CURATION_NUMBER_SUCCESS, curationQueryService.getCurationNumber());
 	}
 }
