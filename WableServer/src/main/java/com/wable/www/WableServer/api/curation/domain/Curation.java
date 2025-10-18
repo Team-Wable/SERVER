@@ -16,15 +16,11 @@ public class Curation extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column
-	private Long memberId;
-
 	@Column(name = "curation_link")
 	private String curationLink;
 
 	@Builder
 	public Curation(Long memberId, String curationLink) {
-		this.memberId = memberId;
 		this.curationLink = curationLink;
 	}
 }
