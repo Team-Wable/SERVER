@@ -15,4 +15,6 @@ public interface CurationRepository extends JpaRepository<Curation, Long> {
 	Slice<Curation> findCurationsByNextPage(Long lastCurationId, PageRequest pageRequest);
 
 	Slice<Curation> findTop15ByOrderByCreatedAtDesc(PageRequest pageRequest);
+
+	Curation findTop1ByOrderByCreatedAtDesc();
 }

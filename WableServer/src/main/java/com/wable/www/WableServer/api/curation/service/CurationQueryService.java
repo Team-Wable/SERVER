@@ -2,6 +2,7 @@ package com.wable.www.WableServer.api.curation.service;
 
 import com.wable.www.WableServer.api.curation.domain.Curation;
 import com.wable.www.WableServer.api.curation.dto.response.CurationGetAllResponseDto;
+import com.wable.www.WableServer.api.curation.dto.response.CurationNumberGetResponseDto;
 import com.wable.www.WableServer.api.curation.repository.CurationRepository;
 import com.wable.www.WableServer.common.util.TimeUtilCustom;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,10 @@ public class CurationQueryService {
 						oneCuration,
 						TimeUtilCustom.refineTime(oneCuration.getCreatedAt())))
 				.collect(Collectors.toList());
+	}
+
+	public CurationNumberGetResponseDto getCurationNumber() {
+		Curation curation = curationRepository.findTop1ByOrderByCreatedAtDesc();
+		return CurationNumberGetResponseDto.of(curation.getId());
 	}
 }

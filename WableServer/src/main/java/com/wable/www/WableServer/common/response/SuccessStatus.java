@@ -88,7 +88,8 @@ public enum SuccessStatus {
     /**
      * Viewit
      */
-    GET_CURATION_ALL_SUCCESS(HttpStatus.OK, "큐레이션 목록 조회 성공")
+    GET_CURATION_ALL_SUCCESS(HttpStatus.OK, "큐레이션 목록 조회 성공"),
+    GET_CURATION_NUMBER_SUCCESS(HttpStatus.OK, "최신 큐레이션 번호 조회 성공")
     ;
 
     private final HttpStatus httpStatus;
