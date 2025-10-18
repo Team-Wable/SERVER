@@ -93,7 +93,8 @@ public enum SuccessStatus {
     /**
      * Quiz
      */
-    GET_QUIZ_SUCCESS(HttpStatus.OK, "퀴즈 조회 성공")
+    GET_QUIZ_SUCCESS(HttpStatus.OK, "퀴즈 조회 성공"),
+    GRADE_QUIZ_SUCCESS(HttpStatus.OK, "퀴즈 채점 성공")
     ;
 
     private final HttpStatus httpStatus;
