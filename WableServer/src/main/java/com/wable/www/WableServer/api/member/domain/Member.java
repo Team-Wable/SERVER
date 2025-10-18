@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -84,8 +85,10 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_lck_years")
     private int memberLckYears;
 
-    @Column(name = "member_exp", columnDefinition = "DOUBLE DEFAULT 0")
-    private double memberExp;
+//    @Column(name = "member_exp", columnDefinition = "DOUBLE DEFAULT 0")
+//    private double memberExp;
+    @Column(name = "member_exp", precision = 10, scale = 2) // 예: 총 10자리, 소수 두 자리
+    private BigDecimal memberExp = BigDecimal.ZERO;
 
     @OneToMany(mappedBy = "notificationTargetMember",cascade = ALL)
     private List<Notification> targetNotification = new ArrayList<>();
@@ -124,7 +127,7 @@ public class Member extends BaseTimeEntity {
         this.fcmBadge = 0;
         this.memberFanTeam = "";
         this.memberLckYears = 0;
-        this.memberExp = 0;
+        this.memberExp = BigDecimal.ZERO;
         this.memberBanCount = 0;
         this.memberCommunity = null;
         this.memberQuizCount = 0;
@@ -177,11 +180,11 @@ public class Member extends BaseTimeEntity {
 
     public void updateMemberLckYears(int memberLckYears) { this.memberLckYears = memberLckYears;}
 
-    public void increaseExpPostContent() { this.memberExp += 3.0;}
+    public void increaseExpPostContent() { this.memberExp = this.memberExp.add(BigDecimal.valueOf(3.0));}
 
-    public void increaseExpPostComment() { this.memberExp += 1.0;}
+    public void increaseExpPostComment() { this.memberExp = this.memberExp.add(BigDecimal.valueOf(1.0));}
 
-    public void increaseExpPostLike() { this.memberExp += 0.6;}
+    public void increaseExpPostLike() { this.memberExp = this.memberExp.add(BigDecimal.valueOf(0.6));}
 
     public void banMember() {this.memberBanCount += 1;}
 
@@ -189,9 +192,9 @@ public class Member extends BaseTimeEntity {
         this.memberCommunity = memberCommunity;
     }
 
-    public void increaseExpQuizRight() { this.memberExp += 15.0;}
+    public void increaseExpQuizRight() { this.memberExp = this.memberExp.add(BigDecimal.valueOf(8.0));}
 
-    public void increaseExpQuizWrong() { this.memberExp += 8.0;}
+    public void increaseExpQuizWrong() {this.memberExp = this.memberExp.add(BigDecimal.valueOf(3.0));}
 
     public void increaseQuizCount() { this.memberQuizCount += 1;}
 
