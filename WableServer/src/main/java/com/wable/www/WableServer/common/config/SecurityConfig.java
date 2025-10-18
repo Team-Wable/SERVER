@@ -74,7 +74,8 @@ public class SecurityConfig {
             "/health",
             "/profile",
             "/actuator/health",
-            "/api/v1/notification/info/manage/**"
+            "/api/v1/notification/info/manage/**",
+            "/api/v1/curation/manage/**"
     };
 
     @Bean

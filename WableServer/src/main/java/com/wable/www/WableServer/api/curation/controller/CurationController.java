@@ -1,7 +1,9 @@
 package com.wable.www.WableServer.api.curation.controller;
 
+import com.wable.www.WableServer.api.curation.dto.request.CurationPostRequestDto;
 import com.wable.www.WableServer.api.curation.dto.response.CurationGetAllResponseDto;
 import com.wable.www.WableServer.api.curation.dto.response.CurationNumberGetResponseDto;
+import com.wable.www.WableServer.api.curation.service.CurationCommandService;
 import com.wable.www.WableServer.api.curation.service.CurationQueryService;
 import com.wable.www.WableServer.common.response.ApiResponse;
 import com.wable.www.WableServer.common.util.MemberUtil;
@@ -10,10 +12,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -27,6 +26,7 @@ import static com.wable.www.WableServer.common.response.SuccessStatus.*;
 @Tag(name="큐레이션 관련", description = "Curation API Document")
 public class CurationController {
 	private final CurationQueryService curationQueryService;
+	private final CurationCommandService curationCommandService;
 
 	@GetMapping("v1/curation")
 	@Operation(summary = "큐레이션 목록 조회 API 입니다.",description = "Curation List Get")
@@ -40,4 +40,12 @@ public class CurationController {
 	public ResponseEntity<ApiResponse<CurationNumberGetResponseDto>> getCurationNumber(Principal principal) {
 		return ApiResponse.success(GET_CURATION_NUMBER_SUCCESS, curationQueryService.getCurationNumber());
 	}
+
+	@PostMapping("v1/curation/manage/link")
+	@Operation(summary = "XX운영용 큐레이션 작성XX",description = "Curation Post API")
+	public ResponseEntity<ApiResponse<Object>> postCuration(@RequestBody CurationPostRequestDto curationPostRequestDto) {
+		curationCommandService.postCuration(curationPostRequestDto);
+		return ApiResponse.success(POST_CURATION_SUCCESS);
+	}
+
 }
