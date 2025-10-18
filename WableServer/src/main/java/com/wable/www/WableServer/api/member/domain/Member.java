@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +105,12 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_community")
     private String memberCommunity;
 
+    @Column(name = "member_quiz_date")
+    private LocalDate memberQuizDate;
+
+    @Column(name = "member_quiz_count", columnDefinition = "INTEGER DEFAULT 0")
+    private int memberQuizCount;
+
     @Builder
     private Member(String nickname, SocialPlatform socialPlatform, String socialId, String profileUrl, String memberEmail, String socialNickname) {
         this.nickname = nickname;
@@ -120,6 +127,7 @@ public class Member extends BaseTimeEntity {
         this.memberExp = 0;
         this.memberBanCount = 0;
         this.memberCommunity = null;
+        this.memberQuizCount = 0;
     }
 
     public void decreaseGhost() {
@@ -180,4 +188,14 @@ public class Member extends BaseTimeEntity {
     public void updateMemberCommunity(String memberCommunity) {
         this.memberCommunity = memberCommunity;
     }
+
+    public void increaseExpQuizRight() { this.memberExp += 15.0;}
+
+    public void increaseExpQuizWrong() { this.memberExp += 8.0;}
+
+    public void increaseQuizCount() { this.memberQuizCount += 1;}
+
+    public void updateQuizCount() { this.memberQuizCount = 1;}
+
+    public void updateMemberQuizDate(LocalDate localDate) { this.memberQuizDate = localDate;}
 }
