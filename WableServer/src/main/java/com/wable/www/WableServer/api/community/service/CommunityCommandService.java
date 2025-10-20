@@ -6,6 +6,7 @@ import com.wable.www.WableServer.api.community.dto.response.PreinCommunityRespon
 import com.wable.www.WableServer.api.community.repository.CommunityRepository;
 import com.wable.www.WableServer.api.member.domain.Member;
 import com.wable.www.WableServer.api.member.repository.MemberRepository;
+import com.wable.www.WableServer.common.util.CommunityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,6 @@ public class CommunityCommandService {
 		Community community = communityRepository.getCommunityByCommunityName(communityPreinRequestDto.communityName());
 		community.increaseCommunityNumber();
 
-		return PreinCommunityResponseDto.of(community.calculatePercent());
+		return PreinCommunityResponseDto.of(CommunityUtil.calculatePercent(community.getCommunityName(), community.getCommunityNumber()));
 	}
 }
