@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class CurationQueryService {
 	private final CurationRepository curationRepository;
 
-	public List<CurationGetAllResponseDto> getCurationAll(Long memberId, Long cursor) {
+	public List<CurationGetAllResponseDto> getCurationAll(Long cursor) {
 		PageRequest pageRequest = PageRequest.of(0, 15);
 		Slice<Curation> curationList;
 

@@ -30,9 +30,8 @@ public class CurationController {
 
 	@GetMapping("v1/curation")
 	@Operation(summary = "큐레이션 목록 조회 API 입니다.",description = "Curation List Get")
-	public ResponseEntity<ApiResponse<List<CurationGetAllResponseDto>>> getCurationAll(Principal principal,
-																					   @RequestParam(value = "cursor") Long cursor) {
-		return ApiResponse.success(GET_CURATION_ALL_SUCCESS, curationQueryService.getCurationAll(MemberUtil.getMemberId(principal), cursor));
+	public ResponseEntity<ApiResponse<List<CurationGetAllResponseDto>>> getCurationAll(@RequestParam(value = "cursor") Long cursor) {
+		return ApiResponse.success(GET_CURATION_ALL_SUCCESS, curationQueryService.getCurationAll(cursor));
 	}
 
 	@GetMapping("v1/curation/number")

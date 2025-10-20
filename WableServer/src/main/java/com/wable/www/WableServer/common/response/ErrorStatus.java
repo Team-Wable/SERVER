@@ -56,6 +56,7 @@ public enum ErrorStatus {
      * 500 SERVER_ERROR
      */
     INTERNAL_SERVER_ERROR("예상치 못한 서버 에러가 발생했습니다."),
+    CRAWLING_ERROR("데이터 크롤링에 에러가 발생했습니다."),
     BAD_GATEWAY_EXCEPTION("일시적인 에러가 발생하였습니다.\n잠시 후 다시 시도해주세요!");
 
     private final String message;

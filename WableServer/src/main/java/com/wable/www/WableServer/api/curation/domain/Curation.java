@@ -19,8 +19,16 @@ public class Curation extends BaseTimeEntity {
 	@Column(name = "curation_link")
 	private String curationLink;
 
+	@Column(name = "curation_title")
+	private String curationTitle;
+
+	@Column(name = "curation_thumbnail", length = 1000)
+	private String curationThumbnail;
+
 	@Builder
-	public Curation(Long memberId, String curationLink) {
+	public Curation(Long memberId, String curationLink, String curationTitle, String curationThumbnail) {
 		this.curationLink = curationLink;
+		this.curationTitle = curationTitle;
+		this.curationThumbnail = curationThumbnail;
 	}
 }
