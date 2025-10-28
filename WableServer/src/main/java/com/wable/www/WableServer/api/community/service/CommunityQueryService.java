@@ -30,7 +30,7 @@ public class CommunityQueryService {
 			"BFX", 8,
 			"DNF", 8,
 			"NS", 8,
-			"DRX", 18,
+			"DRX", 8,
 			"BRO", 8
 	);
 
