@@ -22,7 +22,7 @@ public class CommunityQueryService {
 	private final CommunityRepository communityRepository;
 
 	private static final Map<String, Integer> TOTAL_MAP = Map.of(
-			"T1", 80,
+			"T1", 100,
 			"DK", 18,
 			"GEN", 20,
 			"KT", 10,
