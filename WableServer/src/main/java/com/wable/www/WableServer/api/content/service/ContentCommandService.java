@@ -57,6 +57,10 @@ public class ContentCommandService {
     public void postContentVer2(Long memberId, MultipartFile contentImage, ContentPostRequestDto contentPostRequestDto) {
         Member member = memberRepository.findMemberByIdOrThrow(memberId);
 
+        if(member.getMemberBanCount()>=5){
+            throw new BadRequestException(ErrorStatus.BAN_COUNT_MEMBER.getMessage());
+        }
+
         member.increaseExpPostContent();
 
         GhostUtil.isGhostMember(member.getMemberGhost());
